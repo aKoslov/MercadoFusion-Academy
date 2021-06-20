@@ -101,13 +101,14 @@ namespace Tienda.Dapper
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Execute(@$"EXEC dbo.UpdateProduct { productID }, 
+                connection.Execute(@$"EXEC dbo.UpdateProduct { productID }, 
                                                               { newProductData.CategoryID }, 
                                                               '{ newProductData.Name }', 
                                                               '{ newProductData.Description }', 
                                                               { newProductData.Price }, 
                                                               { (int)newProductData.StatusID }"
-                                         ) > 0;
+                                            );
+                return  true;
             }
         }
 
@@ -305,7 +306,7 @@ namespace Tienda.Dapper
 
         public User DisplayUserInfo(string username)
         {
-            User userData = new User();
+                User userData = new User();
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 { 
                     var reader = connection.ExecuteReader($"EXEC dbo.RetrieveUserInfo '{ username }'");

@@ -18,15 +18,15 @@ namespace TiendaWeb.Controllers
         [HttpGet("lista")]
         public ActionResult<IEnumerable<CategoryForList>> Get([FromServices] IProductsCategoryLogic categoryLogic)
         {
-            try
-            {
-                var categories = categoryLogic.ListProductsCategories();
-                return Ok(categories);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
+                try
+                {
+                    var categories = categoryLogic.ListProductsCategories();
+                    return Ok(categories);
+                }
+                catch (Exception e)
+                {
+                    return BadRequest(e);
+                }
         }
         // ---------------------------------------- POST New Category ----------------------------------------
         // POST api/<Product>
@@ -35,7 +35,7 @@ namespace TiendaWeb.Controllers
         {
 
 
-            if (Program.RetrieveSession().RetrieveSession().SessionType != Tienda.Dto.UserTypes.Staff)
+            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Staff)
             {
 
                 try
@@ -53,8 +53,13 @@ namespace TiendaWeb.Controllers
             }
             else
             {
-                return BadRequest("Iniciá sesión y ahí vemos\n" + Program.RetrieveSession().RetrieveSession().SessionType);
-
+                if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)
+                {
+                    return BadRequest("Iniciá sesión y ahí vemos\n" + Program.RetrieveSession().RetrieveSession().SessionType);
+                } else
+                {
+                    return BadRequest("No tenés permiso     " + Program.RetrieveSession().RetrieveSession().SessionType);
+                }
             }
         }
 
@@ -65,7 +70,7 @@ namespace TiendaWeb.Controllers
         public ActionResult Put([FromBody] CategoryBase category, [FromServices] IProductsCategoryLogic categoryLogic)
         {
 
-            if (Program.RetrieveSession().RetrieveSession().SessionType != Tienda.Dto.UserTypes.Staff)
+            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Staff)
             {
 
                 try
@@ -86,8 +91,14 @@ namespace TiendaWeb.Controllers
             }
             else
             {
-                return BadRequest("Iniciá sesión y ahí vemos\n" + Program.RetrieveSession().RetrieveSession().SessionType);
-
+                if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)
+                {
+                    return BadRequest("Iniciá sesión y ahí vemos\n" + Program.RetrieveSession().RetrieveSession().SessionType);
+                }
+                else
+                {
+                    return BadRequest("No tenés permiso     " + Program.RetrieveSession().RetrieveSession().SessionType);
+                }
             }
         }
 
@@ -97,7 +108,7 @@ namespace TiendaWeb.Controllers
         public ActionResult Delete([FromQuery] int categoryID, [FromServices] IProductsCategoryLogic categoryLogic)
         {
 
-            if (Program.RetrieveSession().RetrieveSession().SessionType != Tienda.Dto.UserTypes.Staff)
+            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Staff)
             {
 
                 try
@@ -113,7 +124,14 @@ namespace TiendaWeb.Controllers
             }
             else
             {
-                return BadRequest("Iniciá sesión y ahí vemos\n" + Program.RetrieveSession().RetrieveSession().SessionType);
+                if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)
+                {
+                    return BadRequest("Iniciá sesión y ahí vemos\n" + Program.RetrieveSession().RetrieveSession().SessionType);
+                }
+                else
+                {
+                    return BadRequest("No tenés permiso     " + Program.RetrieveSession().RetrieveSession().SessionType);
+                }
             }
         }
     }

@@ -92,6 +92,36 @@ namespace TiendaWeb.Controllers
         }
 
 
+        // ---------------------------------------- Get Users List ----------------------------------------
+        // GET: api/<User>
+        [HttpGet("clientes/token")]
+        public ActionResult<IEnumerable<UserForList>> GetUsersList([FromServices] IUsersLogic userLogic)
+        {
+
+            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Staff)
+            {
+
+                try
+                {
+                    var usersList = userLogic.ListUsers();
+                    return Ok(usersList);
+                }
+                catch (Exception e)
+                {
+                    return BadRequest(e);
+                }
+
+            }
+            else
+            {
+                if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)
+                    return BadRequest("Iniciá sesión y ahí vemos\n" + userLogic.RetrieveSession().SessionType);
+                else
+                    return BadRequest("No tenés permiso     " + userLogic.RetrieveSession().SessionType);
+            }
+        }
+
+
         // ---------------------------------------- Get User Info ----------------------------------------
         // GET: api/<User>
         [HttpGet("cuenta/token")]

@@ -4,5 +4,5 @@ CREATE   PROCEDURE [dbo].[RetrieveUserInfo]
 AS 
 	BEGIN
 	SET NOCOUNT ON
-	SELECT UI.DNI, UI.Name, UI.LastName, UI.PhoneNumber, UI.Username, UI.CreationDate FROM UserInfo UI JOIN Users U ON UI.Username = U.Username WHERE U.Username = @Username
+	SELECT UI.DNI, UI.Name, UI.LastName, U.PhoneNumber, UI.Username, UI.CreationDate FROM UsersInfo UI JOIN Users U ON UI.Username = U.Username WHERE U.Username = @Username
 	END
