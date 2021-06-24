@@ -6,6 +6,5 @@ namespace Tienda.Dto
     {
         public int CategoryID { get; set; }
         public string Description { get; set; }
-        public DateTime AddedDate { get; set; }
     }   
 }

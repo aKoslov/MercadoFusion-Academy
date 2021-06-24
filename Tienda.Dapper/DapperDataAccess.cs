@@ -43,7 +43,7 @@ namespace Tienda.Dapper
 
             ObjParm.Add("@index", index);
             ObjParm.Add("@fetch", fetch);
-            using (SqlConnection connection = new SqlConnection(@"Data Source = ALEJO\SQLEXPRESS; Initial Catalog = MercadoFusion; Integrated Security = True; Persist Security Info = false; Trusted_Connection = True"))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 //return connection.CreateCommand($"EXEC dbo.GetProductsPaginated { index }, { fetch }".Select(ProductMapper).AsList());
                 try
@@ -88,11 +88,12 @@ namespace Tienda.Dapper
             }
         }
 
-        public int CreateProduct(Product product)
+        public Product CreateProduct(Product product)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Execute($"EXEC dbo.NewProduct { product.CategoryID }, '{ product.Name }', '{ product.Description }', { product.Price }, 2");
+                connection.Execute($"EXEC dbo.NewProduct { product.CategoryID }, '{ product.Name }', '{ product.Description }', { product.Price }, 2");
+                return product;
             }
             
         }
@@ -143,13 +144,13 @@ namespace Tienda.Dapper
             {
                 return new Product
                 {
-                    ProductID = dbProduct.ProductID,
+                    ProductID = dbProduct.Id,
                     Name = dbProduct.Name,
                     Description = dbProduct.Description,
                     Price = dbProduct.Price,
-                    AddedDate = dbProduct.AddedDate,
-                    StatusID = (ProductStatus)dbProduct.StatusID,
-                    CategoryID = dbProduct.Category
+                    AddedDate = dbProduct.CreatedDate,
+                    StatusID = (ProductStatus)dbProduct.StatusId,
+                    CategoryID = dbProduct.CategoryId
                 };
             }
             return null;
@@ -162,9 +163,9 @@ namespace Tienda.Dapper
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
 
-                    var reader = connection.ExecuteReader("SELECT CategoryID, Description, AddedDate FROM dbo.ProductsCategoriesInfo");
+                    var reader = connection.ExecuteReader("SELECT Id, Description FROM dbo.Categories");
                     while(reader.Read())
-                    categories.Add(new ProductsCategory { CategoryID = int.Parse(reader["CategoryID"].ToString()), Description = reader["Description"].ToString(), AddedDate = DateTime.Parse(reader["AddedDate"].ToString()) });
+                    categories.Add(new ProductsCategory { CategoryID = int.Parse(reader["Id"].ToString()), Description = reader["Description"].ToString() });
                     reader.Close();
                 }
             
@@ -218,7 +219,8 @@ namespace Tienda.Dapper
 
         //       ----------------------------------------------------------------------------------------------------------------------------------------
         //                    Usuarios
-
+        //
+        /*
         public string[] UserTryLogin(string username)
         {
             List<string> returned = new List<string>();
@@ -236,7 +238,7 @@ namespace Tienda.Dapper
 
             return returned.ToArray();
         }
-
+        */
         public string[] UserLogin(string username, string password)
         {
 
@@ -254,12 +256,12 @@ namespace Tienda.Dapper
             return newSession;
         }
 
-        public bool UserSignup(User newUserData, string password, string salt)
+        public bool UserSignup(User newUserData, string password)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
 
-                SqlCommand command = new SqlCommand($"EXEC dbo.NewUser '{ newUserData.Name }', '{ newUserData.LastName }', { newUserData.DNI }, '{ newUserData.Username }', '{ password }', '{ salt }'", connection);
+                SqlCommand command = new SqlCommand($"EXEC dbo.NewUser '{ newUserData.Name }', '{ newUserData.LastName }', { newUserData.DNI }, '{ newUserData.Username }', { password }", connection);
                 connection.Open();
                 command.ExecuteNonQuery();
                 connection.Close();
@@ -272,7 +274,7 @@ namespace Tienda.Dapper
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                var userType = -1;
+                var userType = 3;
                 var reader = connection.ExecuteReader($"EXEC dbo.UserType '{ username }'");
                 while (reader.Read())
                 {
@@ -292,12 +294,11 @@ namespace Tienda.Dapper
                 while (reader.Read())
                 {
                     users.Add(new User() {
-                        DNI = (int)reader["DNI"],
-                        LastName = reader["LastName"].ToString(),
+                        DNI = int.Parse(reader["DocumentNumber"].ToString()),
+                        LastName = reader["Surname"].ToString(),
                         Name = reader["Name"].ToString(),
-                        PhoneNumber = reader["PhoneNumber"].ToString(),
                         Username = reader["Username"].ToString(),
-                        CreationDate = (DateTime)reader["CreationDate"]
+                        CreationDate = (DateTime)reader["CreatedDate"]
                         });
                 }
                 return users;
@@ -312,8 +313,8 @@ namespace Tienda.Dapper
                     var reader = connection.ExecuteReader($"EXEC dbo.RetrieveUserInfo '{ username }'");
                     while (reader.Read())
                     {
-                        var i = reader["CreationDate"].ToString() ;
-                        userData = new User() { DNI = (int)reader["DNI"], LastName = reader["LastName"].ToString(), Name = reader["Name"].ToString(), PhoneNumber = reader["PhoneNumber"].ToString(), Username = reader["Username"].ToString(), CreationDate = DateTime.Parse(reader["CreationDate"].ToString()) };
+                        var i = reader["CreatedDate"].ToString() ;
+                        userData = new User() { DNI = int.Parse(reader["DocumentNumber"].ToString()), LastName = reader["Surname"].ToString(), Name = reader["Name"].ToString(), Username = reader["Username"].ToString(), CreationDate = DateTime.Parse(reader["CreatedDate"].ToString()) };
                     }
                 
                     return userData;
@@ -339,16 +340,16 @@ namespace Tienda.Dapper
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                return connection.Execute($"EXEC dbo.UpdateUserInfo '{ username }', '{ newUserData.Name }', '{ newUserData.LastName }', { newUserData.DNI }, '{ newUserData.PhoneNumber }'") > 0;
+                return connection.Execute($"EXEC dbo.UpdateUserInfo '{ username }', '{ newUserData.Name }', '{ newUserData.LastName }', { newUserData.DNI }") > 0;
             }
         }
 
-        public string UpdateUserPassword(string username, string StorePassword, string newSalt)
+        public string UpdateUserPassword(string username, string StorePassword)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string password = "";
-                var reader = connection.ExecuteReader($"EXEC dbo.UpdateUserPassword '{ username }', '{ StorePassword }', '{ newSalt }'"); 
+                var reader = connection.ExecuteReader($"EXEC dbo.UpdateUserPassword '{ username }', '{ StorePassword }'"); 
                 while (reader.Read())
                 {
                     password = reader[0].ToString();

@@ -13,7 +13,7 @@ namespace Tienda.Interfaces
 
         List<Product> GetProductByName(string name);
 
-        int CreateProduct(Product product);
+        Product CreateProduct(Product product);
 
         //List<Product> ListProducts();
         

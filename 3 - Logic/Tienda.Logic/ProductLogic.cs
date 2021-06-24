@@ -19,7 +19,7 @@ namespace Tienda.Logic
             this.dataAccess = new DapperDataAccess(connString);
         }
         
-        public int CreateProduct(Product product)
+        public Product CreateProduct(Product product)
         {
             return this.dataAccess.CreateProduct(product);
         }
@@ -33,21 +33,21 @@ namespace Tienda.Logic
             string filtersPost = "";
             if (!filters[0].Equals(""))
             {
-                filtersPost = $"Category = { filters[0] }";
+                filtersPost = $"CategoryId = { filters[0] }";
             }
             if (!filters[1].Equals(""))
             {
                 if (filtersPost == "")
-                    filtersPost = $"Price = { filters[1] }";
+                    filtersPost = $"Price > { filters[1] }";
                 else
-                    filtersPost += $" AND Price = { filters[1] }";
+                    filtersPost += $" AND Price > { filters[1] }";
             }
             if (!filters[2].Equals(""))
             {
                 if (filtersPost == "")
                     filtersPost = $"StatusID = { filters[2] }";
                 else
-                    filtersPost += $" AND StatusID = { filters[2] }";
+                    filtersPost += $" AND StatusId = { filters[2] }";
             }
                 return this.dataAccess.GetProductsFiltered(filtersPost, index, fetch);
         }

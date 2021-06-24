@@ -12,14 +12,14 @@ namespace Tienda.Interfaces
         public List<User> ListUsers();
         //public User NewUser();
         //public User RetrieveUser();
-        public string[] UserTryLogin(string username);
+        //public string[] UserTryLogin(string username);
         public string[] UserLogin(string username, string password);
-        public bool UserSignup(User newUserData, string password, string salt);
+        public bool UserSignup(User newUserData, string password);
         public User DisplayUserInfo(string username);
         public bool UpdateUserInfo(User newUserData, string session);
         public bool ComparePassword(string username, string password);
 
-        public string UpdateUserPassword(string session, string storePassword, string newSalt);
+        public string UpdateUserPassword(string session, string storePassword);
         public UserTypes ValidateUserType(string username);
         //public string ComputeHash(byte[] bytesToHash, byte[] salt);
         //public string NewSalt();

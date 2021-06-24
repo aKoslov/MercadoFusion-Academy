@@ -24,19 +24,19 @@ namespace TiendaWeb.Controllers
                 try
                 {
                     string[] key = new string[] { };
-                    key = userLogic.UserTryLogin(username);
+                    //key = userLogic.UserTryLogin(username);
                     string[] newSession = new string[2];
-                    var hash = new Tienda.Logic.DataHashing();
-                    for (var i = 0; i < key.Length; i++)
-                    {
-                        newSession = userLogic.UserLogin(username, hash.ComputeHash(password, key[i]));
+                    //var hash = new Tienda.Logic.DataHashing();
+                    //for (var i = 0; i < key.Length; i++)
+                    //{
+                        newSession = userLogic.UserLogin(username, password);
                         if (newSession[0] != "" && newSession[1] != "") {
                             Program.NewSession(new Tienda.Logic.UserLogic(new Tienda.Dto.UserSession() { SessionToken = new Guid().ToString(), SessionType = userLogic.ValidateUserType(username) }, newSession[1]));
                         }
-                    }
+                   //}
                     if (newSession[0] == "" || newSession[1] == "")
                     {
-                        throw new Exception();
+                        return BadRequest("Credenciales incorrectas");
                     }
                 } catch (Exception e)
                 {
@@ -55,7 +55,7 @@ namespace TiendaWeb.Controllers
         // ---------------------------------------- Post User Signup ----------------------------------------
         // POST: api/<User>
         [HttpPost("signup")]
-        public ActionResult Post([FromQuery] string Username, string Name, string LastName, int DNI, string PhoneNumber, string Password, [FromServices] IUsersLogic userLogic)
+        public ActionResult Post([FromQuery] string Username, string Name, string LastName, int DNI, string Password, [FromServices] IUsersLogic userLogic)
         {
 
             if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)
@@ -64,10 +64,10 @@ namespace TiendaWeb.Controllers
                 try
                 {
                     var hash = new Tienda.Logic.DataHashing();
-                    string newSalt = hash.GenerateSalt();
-                    string hPassword = hash.ComputeHash(Password, newSalt);
+                    //string newSalt = hash.GenerateSalt();
+                    //string hPassword = hash.ComputeHash(Password, newSalt);
 
-                    var newUserData = new Tienda.Dto.User() { Username = Username, Name = Name, LastName = LastName, DNI = DNI, PhoneNumber = PhoneNumber };
+                    var newUserData = new Tienda.Dto.User() { Username = Username, Name = Name, LastName = LastName, DNI = DNI };
 
                     //var newUserData = new User() { Username = username, 
                     //                               Name = name,
@@ -75,7 +75,7 @@ namespace TiendaWeb.Controllers
                     //                               DNI = dni, 
                     //                               PhoneNumber = phonenumber,
                     //                               CreationDate = DateTime.Now } ;
-                    userLogic.UserSignup(newUserData, hPassword, newSalt);
+                    userLogic.UserSignup(newUserData, Password);
                 }
                 catch (Exception e)
                 {
@@ -136,7 +136,7 @@ namespace TiendaWeb.Controllers
                     //Token de Sesión daría lugar a transportar información de manera sutil
                     //Por ahora la info que viaja es el UserID
                     var userInfo = userLogic.DisplayUserInfo(Program.RetrieveSession().RetrieveUser().Username);
-                    return Ok(new UserForList(/*(int)userInfo.UserID,*/ userInfo.Username, userInfo.Name, userInfo.LastName, userInfo.DNI, userInfo.PhoneNumber, userInfo.CreationDate));
+                    return Ok(new UserForList(/*(int)userInfo.UserID,*/ userInfo.Username, userInfo.Name, userInfo.LastName, userInfo.DNI, userInfo.CreationDate));
                 }
                 catch (Exception e)
                 {
@@ -187,20 +187,16 @@ namespace TiendaWeb.Controllers
 
                 try
                 {
-                    string passwordHash = ""; 
-                    var hash = new Tienda.Logic.DataHashing();
-                    string newSalt = hash.GenerateSalt();
-                    string hPassword = hash.ComputeHash(newPassword, newSalt);
-                    string key = userLogic.UserTryLogin(Program.RetrieveSession().userData.Username)[0];
-                    if (userLogic.ComparePassword(Program.RetrieveSession().userData.Username, hash.ComputeHash(oldPassword, key))) 
+                    //string passwordHash = ""; 
+                    //var hash = new Tienda.Logic.DataHashing();
+                    //string newSalt = hash.GenerateSalt();
+                    //string hPassword = hash.ComputeHash(newPassword, newSalt);
+                    //string key = userLogic.UserTryLogin(Program.RetrieveSession().userData.Username)[0];
+                    if (userLogic.ComparePassword(Program.RetrieveSession().userData.Username, oldPassword))
                     {
-                        /* ¯\_(ツ)_ /¯ */ passwordHash = userLogic.UpdateUserPassword(Program.RetrieveSession().userData.Username, hash.ComputeHash(newPassword, newSalt), newSalt);
-                        return Ok("Contraseña nueva: " + passwordHash);
-                    }
-                    
-                    if (passwordHash != "")
-                    {
-                        return Ok("Contraseña nueva: " + passwordHash);
+                        /* ¯\_(ツ)_ /¯ */
+                        userLogic.UpdateUserPassword(Program.RetrieveSession().userData.Username, newPassword);
+                        return Ok("Contraseña cambiada");
                     }
                     else
                         return BadRequest("Contraseña Incorrecta");

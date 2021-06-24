@@ -29,10 +29,6 @@ namespace Tienda.Logic
             this.userData = this.DisplayUserInfo(username);
 
         }
-        public string[] UserTryLogin(string username)
-        {
-            return dataAccess.UserTryLogin(username);
-        }
         public string[] UserLogin(string username, string password)
         {
             //DataHashing hash = new DataHashing();
@@ -50,9 +46,9 @@ namespace Tienda.Logic
             return dataAccess.UserLogin(username, password);
 
         }
-        public bool UserSignup(User newUserData, string password, string salt)
+        public bool UserSignup(User newUserData, string password)
         {
-            return dataAccess.UserSignup(newUserData, password, salt);
+            return dataAccess.UserSignup(newUserData, password);
         }
 
         public List<User> ListUsers ()
@@ -87,9 +83,9 @@ namespace Tienda.Logic
             return dataAccess.ComparePassword(username, password);
         }
 
-        public string UpdateUserPassword(string session, string storePassword, string newSalt)
+        public string UpdateUserPassword(string session, string storePassword)
         {
-            return dataAccess.UpdateUserPassword(session, storePassword, newSalt);
+            return dataAccess.UpdateUserPassword(session, storePassword);
         }
         public UserTypes ValidateUserType (string username)
         {

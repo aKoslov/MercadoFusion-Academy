@@ -17,8 +17,6 @@ namespace TiendaWeb.Models
 
         public int DNI { get; set; }
 
-        public string PhoneNumber { get; set; }
-
         public DateTime CreationDate { get; }
     }
 
@@ -34,18 +32,15 @@ namespace TiendaWeb.Models
 
         public int DNI { get; set; }
 
-        public string PhoneNumber { get; set; }
-
         public DateTime CreationDate { get; }
 
-        public UserForList(/*int userID,*/ string username, string name, string lastName, int dni, string phoneNumber, DateTime creationDate)
+        public UserForList(/*int userID,*/ string username, string name, string lastName, int dni, DateTime creationDate)
         {
             //UserID = userID;
             Username = username;
             Name = name;
             LastName = lastName;
             DNI = dni;
-            PhoneNumber = phoneNumber;
             CreationDate = creationDate;
         }
     }

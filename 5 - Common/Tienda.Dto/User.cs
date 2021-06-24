@@ -12,8 +12,6 @@ namespace Tienda.Dto
 
         public int DNI { get; set; }
 
-        public string PhoneNumber { get; set; }
-
         public DateTime CreationDate { get; set; }
 
     }

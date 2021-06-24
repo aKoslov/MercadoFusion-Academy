@@ -33,15 +33,16 @@ namespace TiendaWeb.Controllers
         {
             var products = new List<Tienda.Dto.Product>();
             string[] filtering = { filters.Category.ToString(), filters.Price.ToString(), filters.Status.ToString() };
-            if (filtering[0] != "" &&
-                filtering[1] != "" &&
-                filtering[2] != "")
+            if (filtering[0] == "" &&
+                filtering[1] == "" &&
+                filtering[2] == "")
             {
-                products = productLogic.GetProductsFiltered(filtering, index, fetch); //.Where(t => t.Price > priceFilter.Price).Select(c => new ProductForList(c.Id, c.Name, c.Description, c.Price));
+                products = productLogic.GetProductsPaginated(index, fetch);
+                
             }
             else
             {
-                products = productLogic.GetProductsPaginated(index, fetch);
+                products = productLogic.GetProductsFiltered(filtering, index, fetch);
             }
             if (products.Count < 1)
                 return BadRequest();
@@ -96,7 +97,7 @@ namespace TiendaWeb.Controllers
                     CategoryID = product.CategoryID,
                     StatusID = product.StatusID
                 });
-                return (Ok(newProduct));
+                return Ok("Producto añadido");
             }
             else
             {
@@ -156,10 +157,10 @@ namespace TiendaWeb.Controllers
                 try
                 {
                     var borrado = productLogic.DeleteProduct(id);
-                    if (borrado != null)
+                    //if (borrado != null)
                         return Ok("Producto Eliminado");
-                    else
-                        return NotFound("No se pudo eliminar: No se encontró");
+                    //else
+                        //return NotFound("No se pudo eliminar: No se encontró");
             }
             catch (Exception e)
             {
