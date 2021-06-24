@@ -1,6 +1,0 @@
-﻿CREATE TABLE [dbo].[UserTypes] (
-    [TypeID]    TINYINT      IDENTITY (0, 1) NOT NULL,
-    [GroupName] NVARCHAR (8) NOT NULL,
-    CONSTRAINT [PK__UserType__516F03952C04063A] PRIMARY KEY CLUSTERED ([TypeID] ASC)
-);
-

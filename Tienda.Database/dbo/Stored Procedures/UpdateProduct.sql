@@ -12,5 +12,5 @@ CREATE   PROCEDURE dbo.UpdateProduct	(
 AS
 BEGIN
 	SET NOCOUNT ON
-	UPDATE dbo.Products SET CategoryID = @CategoryID, Name = @Name, Description = @Description, Price = @Price, StatusID = @StatusID WHERE ProductID = @ProductID
+	UPDATE dbo.Products SET CategoryId = @CategoryID, Name = @Name, Description = @Description, Price = @Price, StatusID = @StatusID WHERE Id = @ProductID
 END

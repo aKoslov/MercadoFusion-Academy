@@ -4,5 +4,5 @@
 AS
 	BEGIN
 	SET NOCOUNT ON
-	DELETE FROM dbo.Products WHERE ProductID = @ProductID
+	DELETE FROM dbo.Products WHERE Id = @ProductID
 	END

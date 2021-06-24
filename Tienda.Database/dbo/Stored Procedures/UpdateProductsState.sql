@@ -8,5 +8,5 @@ CREATE   PROCEDURE dbo.UpdateProductsState	(
 AS
 BEGIN
 	SET NOCOUNT ON
-	UPDATE dbo.Products SET StatusID = @NewState WHERE ProductID = @ProductID
+	UPDATE dbo.Products SET StatusID = @NewState WHERE Id = @ProductID
 END

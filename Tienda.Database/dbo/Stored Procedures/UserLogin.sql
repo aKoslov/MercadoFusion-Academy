@@ -1,4 +1,25 @@
 ﻿
+/*
+USE [MercadoFusion]
+GO
+ Object:  StoredProcedure [dbo].[GetProductByID]    Script Date: 1/6/2021 1:55:42 
+SET ANSI_NULLS ON
+
+GO
+SET QUOTED_IDENTIFIER ON
+GO 
+GO
+
+CREATE OR ALTER PROCEDURE [dbo].[UserTryLogin] (
+	@username [nvarchar](50)
+		)
+AS
+	BEGIN
+	SELECT Salt FROM Users WHERE Username = @username
+	END
+GO
+*/
+
 
 CREATE   PROCEDURE [dbo].[UserLogin]	(
 	@username [nvarchar](50),
@@ -7,5 +28,5 @@ CREATE   PROCEDURE [dbo].[UserLogin]	(
 AS
 	BEGIN
 	SET NOCOUNT ON
-		SELECT UserID, Username FROM Users WHERE Username = @username AND Password = @password
+		SELECT Id, Username FROM Users WHERE Username = @username AND Password = @password
 	END

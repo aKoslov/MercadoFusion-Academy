@@ -12,5 +12,5 @@ CREATE   PROCEDURE dbo.DeleteProductsCategory (
 AS
 BEGIN 
 	SET NOCOUNT ON 
-	DELETE FROM dbo.ProductsCategories WHERE CategoryID = @CategoryID
+	DELETE FROM dbo.[Categories] WHERE Id = @CategoryID
 END

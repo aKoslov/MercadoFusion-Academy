@@ -1,8 +1,9 @@
 ﻿
-CREATE   PROCEDURE [dbo].[UserType]
+
+CREATE   PROCEDURE [dbo].UserType
 	@Username nvarchar(50)
 AS
 	BEGIN
 	SET NOCOUNT ON
-	SELECT UserType FROM Users WHERE Username = @Username
+	SELECT StatusId FROM Users WHERE Username = @Username
 	END

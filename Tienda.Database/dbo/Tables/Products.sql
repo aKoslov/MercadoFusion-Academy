@@ -1,13 +1,15 @@
 ﻿CREATE TABLE [dbo].[Products] (
-    [ProductID]   INT             IDENTITY (1, 1) NOT NULL,
-    [CategoryID]  TINYINT         NOT NULL,
-    [Name]        NVARCHAR (50)   NOT NULL,
-    [Description] NVARCHAR (250)  NULL,
+    [Id]          SMALLINT        IDENTITY (1, 1) NOT NULL,
+    [Name]        VARCHAR (200)   NOT NULL,
+    [Description] VARCHAR (500)   NULL,
     [Price]       DECIMAL (18, 2) NOT NULL,
-    [StatusID]    TINYINT         NOT NULL,
-    [AddedDate]   DATETIME        DEFAULT (getdate()) NULL,
-    PRIMARY KEY CLUSTERED ([ProductID] ASC),
-    CONSTRAINT [FK_Product_ProductsCategories] FOREIGN KEY ([CategoryID]) REFERENCES [dbo].[ProductsCategories] ([CategoryID]),
-    CONSTRAINT [FK_Product_ProductsStates] FOREIGN KEY ([StatusID]) REFERENCES [dbo].[ProductsStates] ([StateID])
+    [CreatedDate] DATETIME        CONSTRAINT [DF_Products_CreatedDate] DEFAULT (getdate()) NOT NULL,
+    [CategoryId]  SMALLINT        NOT NULL,
+    [StatusId]    TINYINT         CONSTRAINT [DF_Products_StatusId] DEFAULT ((1)) NOT NULL,
+    CONSTRAINT [PK_Products] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Products_Categories] FOREIGN KEY ([CategoryId]) REFERENCES [dbo].[Categories] ([Id]),
+    CONSTRAINT [FK_Products_ProductStatus] FOREIGN KEY ([StatusId]) REFERENCES [dbo].[ProductStatus] ([ProductStatusId])
 );
+
+
 

@@ -4,5 +4,5 @@ CREATE   PROCEDURE [dbo].[GetProductByName]
 AS
 BEGIN
 	SET NOCOUNT ON
-	SELECT * FROM dbo.ProductsInfo P WHERE P.Name LIKE '%' + @Name + '%'
+	SELECT * FROM dbo.Products P WHERE P.Name LIKE '%' + @Name + '%'
 END

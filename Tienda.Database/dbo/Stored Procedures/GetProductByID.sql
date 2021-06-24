@@ -1,8 +1,8 @@
 ﻿
 CREATE   PROCEDURE [dbo].[GetProductByID]
 	@ID [int]
-AS
+AS 
 BEGIN
 	SET NOCOUNT ON
-	SELECT * FROM dbo.ProductsInfo P WHERE P.ProductID = @ID
+	SELECT * FROM dbo.Products P WHERE P.Id = @ID
 END
