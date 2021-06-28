@@ -24,28 +24,11 @@ namespace Tienda.Dapper
             this.connectionString = connectionString;
         }
 
-
-
-        /********** Productos **********/
-        /*public List<Product> ListProducts()
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                //Devuelve vista con info que puede ver cualquiera 
-                return connection.Query("SELECT * FROM dbo.ProductsInfo").Select(ProductMapper).AsList();
-            }
-        }*/
-
         public List<Product> GetProductsPaginated(int index, int fetch)
         {
             List<Product> productsPaginated = new List<Product>();
-            DynamicParameters ObjParm = new DynamicParameters();
-
-            ObjParm.Add("@index", index);
-            ObjParm.Add("@fetch", fetch);
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                //return connection.CreateCommand($"EXEC dbo.GetProductsPaginated { index }, { fetch }".Select(ProductMapper).AsList());
                 try
                 {
                     productsPaginated = connection.Query($"EXEC dbo.GetProductsPaginated { index }, { fetch }").Select(ProductMapper).AsList();
@@ -64,12 +47,8 @@ namespace Tienda.Dapper
         public List<Product> GetProductsFiltered(string filters, int index, int fetch)
         {
             List<Product> productsPaginated = new List<Product>();
-            //DynamicParameters ObjParm = new DynamicParameters();
-            //ObjParm.Add("@index", index);
-            //ObjParm.Add("@fetch", fetch);
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                //return connection.CreateCommand($"EXEC dbo.GetProductsPaginated { index }, { fetch }".Select(ProductMapper).AsList());
                 try
                 {
                     return connection.Query($"EXEC dbo.GetProductsFiltered '{ filters }', { index }, { fetch }").Select(ProductMapper).AsList();
@@ -168,20 +147,6 @@ namespace Tienda.Dapper
                     categories.Add(new ProductsCategory { CategoryID = int.Parse(reader["Id"].ToString()), Description = reader["Description"].ToString() });
                     reader.Close();
                 }
-            
-            //else
-            //{
-            //    using (SqlConnection connection = new SqlConnection(connectionString))
-            //    {
-                   
-            //       var reader = connection.ExecuteReader("SELECT CategoryID, Description FROM dbo.ProductsCategoriesInfo");
-            //        while (reader.Read())
-            //        {
-            //            categories.Add(new ProductsCategory { CategoryID = int.Parse(reader["CategoryID"].ToString()), Description = reader["Description"].ToString() });
-            //        }
-            //        reader.Close();
-            //    }
-            //}
             return categories;
         }
 
@@ -216,29 +181,6 @@ namespace Tienda.Dapper
                     });
             }
         }
-
-        //       ----------------------------------------------------------------------------------------------------------------------------------------
-        //                    Usuarios
-        //
-        /*
-        public string[] UserTryLogin(string username)
-        {
-            List<string> returned = new List<string>();
-            //string[] returnd = new string[] { };
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                var reader = connection.ExecuteReader($"EXEC dbo.UserTryLogin '{ username }'");
-                //int i = 0;
-                while (reader.Read())
-                {
-                    returned.Add(reader["Salt"].ToString());
-                    //i++;
-                }
-            }
-
-            return returned.ToArray();
-        }
-        */
         public string[] UserLogin(string username, string password)
         {
 
