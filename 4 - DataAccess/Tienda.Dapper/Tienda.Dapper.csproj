@@ -5,9 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\4 - DataAccess\Tienda.DataAccess\Tienda.DataAccess.csproj" />
+    <PackageReference Include="Dapper" Version="2.0.90" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\5 - Common\Tienda.Interfaces\Tienda.Interfaces.csproj" />
-    <ProjectReference Include="..\..\4 - DataAccess\Tienda.Dapper\Tienda.Dapper.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\3 - Logic\Tienda.Logic\Tienda.Logic.csproj" />
-	  <ProjectReference Include="..\..\Tienda.Exceptions\Tienda.Exceptions.csproj" />
+	  <ProjectReference Include="..\..\3 - Logic\Tienda.Exceptions\Tienda.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>
