@@ -1,0 +1,15 @@
+<div class="cart">
+
+    <div class="alert alert-info" *ngIf="cartItems.length === 0">
+        <p>No encontramos tu carro</p>
+    </div>
+       <ul class="list-group" *ngIf="cartItems.length > 0">
+           <li class="list-group-item" *ngFor="let item of cartItems">
+               <app-cart-item [cartItem]="item"></app-cart-item>
+           </li>
+   
+           <li class="list-group-item active">
+               <strong>Subtotal: {{ cartTotal| currency: '$' }}</strong>
+           </li>
+       </ul>
+</div>
