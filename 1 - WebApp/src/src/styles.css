@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+.cart-item {
+ font-size: medium;   
+}
+
+.cart {
+    float: right;
+}
+
+.filters {
+    font-size: small;
+    border-radius: 0;
+    float: left;
+}
+
+.product-btn {
+    font-size: small;
+    border-color: orange;
+}
+
+.product-btn:hover {
+    border-color: orange;
+    background-color: orange;   
+}
+
+.products-list {
+    width: 170%;
+    margin-left: -30%;
+
+}
+.products-catalog {
+}
+
+.product-item {
+    height: 150px;
+}
