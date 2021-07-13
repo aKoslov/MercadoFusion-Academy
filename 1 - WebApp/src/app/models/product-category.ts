@@ -1,11 +1,11 @@
 export class ProductCategory {
 
-    constructor (public name: string, 
+    constructor (public categoryID: number, 
                  public description: string =  ''
                  ) 
 
             {
-        this.name = name
+        this.categoryID = categoryID
         this.description = description
     }
 

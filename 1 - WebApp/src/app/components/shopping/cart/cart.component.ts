@@ -20,7 +20,7 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
 
-     this.msgService.getMessage().subscribe((product: any) => 
+      this.msgService.getMessage().subscribe((product: Product) => 
           this.addProductToCart(product)
         )
      }
@@ -30,7 +30,6 @@ export class CartComponent implements OnInit {
       let productExists = false
 
       for(let index in this.cartItems) {
-        console.log(this.cartItems[index].productid)
         if (this.cartItems[index].productid === product.productID) {
         this.cartItems[index].quantity++
         productExists = true
@@ -51,6 +50,10 @@ export class CartComponent implements OnInit {
         this.cartItems.forEach( item => {
               this.cartTotal += item.price * item.quantity
         })
+    }
+
+    removeFromCart(item: CartItem) {
+      this.cartItems.splice(this.cartItems.indexOf(item), 1)
     }
   }
   

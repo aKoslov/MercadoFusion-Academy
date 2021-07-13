@@ -32,5 +32,86 @@
 }
 
 .product-item {
-    height: 150px;
+    height: 400px;
+}
+
+.fa-heart {
+    color: palevioletred;
+    cursor: pointer;
+}
+
+.filtersLabels {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.filtersLabels:hover {
+}
+
+.categoriesList:hover {
+    cursor:pointer;
+}
+
+.signup-btn {
+    border-color: rgb(51, 196, 51);
+}
+
+.signup-btn:hover {
+    border-color: rgb(51, 196, 51);
+    background-color: rgb(51, 196, 51);   
+}
+
+.login-btn {
+    border-color: orange;
+}
+
+.login-btn:hover {
+    border-color: orange;
+    background-color: orange;   
+}
+
+.forms {
+    margin: 10px;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    cursor: not-allowed;
+    border-color: rgb(236, 120, 159);
+    background-color: rgb(236, 120, 159);
+}
+
+.form-submit-btn {
+    border-color: rgb(223, 30, 30);
+    background-color: rgb(223, 30, 30);
+    margin: 0 auto;
+    display: block;
+}
+
+.cart {
+    width: 60%;
+}
+
+.cart-item {
+    position: relative;
+}
+
+.btn-close {
+    border-radius: 99px;
+    width: 8px;
+    height: 8px;
+    background-color: lightskyblue;
+    border: 4px;
+    position: absolute;
+    float: right;
+    right: 2px;
+    top: 30%;
+}
+
+.hover-btn {
+    display: none;
+}
+
+.cart-item:hover .hover-btn {
+    display: block;
 }

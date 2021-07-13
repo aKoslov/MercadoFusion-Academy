@@ -8,27 +8,47 @@
 
         <form>
             
-            <div class="col" onclick="alert(this.InlineText)" *ngFor="let cat in categories">
-                <p>{{cat.name}}</p>
+            
+            <div class="alert alert-warning box" *ngIf="categoriesList.length === 0">
+                <p>¡Nos robaron las categorías!</p>
             </div>
 
-            <div class="form-group" style="padding-bottom: 10px;">
-                <button class="btn">Mostrar sólo En Stock</button>
+            <div    class="categoriesList"
+                    *ngIf="categoriesList.length > 0">
+                <p class="form-group align-middle filtersLabels">Categorías</p>
+                <div class="col categoriesList"  
+                    *ngFor="let cat of categoriesList"
+                    (click)="filterCategory(cat.categoryID)"
+                    onhover="cursor: pointer">
+                    <p>{{cat.description}}</p>
+                </div>
+            </div>
+
+            <div class="form-group filtersLabels">
+                <button class="btn" (click)="filterStock()" *ngIf="this.filters.Status == 0">Sólo Productos Disponibles</button>
+                <button class="btn" (click)="filterStock()" *ngIf="this.filters.Status == 1">Productos Sin Stock También</button>
             </div>
 
             <div class="form-group">
                 <label for="form">Mínimo</label>
-                <input type="number" id="from" class="form-control">
+                <label for="form" class="float-right" id="MinLabel"></label>
+                <input type="range" id="from" class="form-control" min="0" max="1000" step="5"
+                oninput="document.getElementById('MinLabel').innerHTML = this.value;">
             </div>
-            
+
             <div class="form-group">
+                <!-- <mat-slider thumbLabel min="1" max="10" step="1" value="4"></mat-slider>
+
+                <mat-slider tickInterval="2" thumbLabel min="1" max="10" step="1" value="4"></mat-slider> -->
                 <label for="to">Máximo</label>
-                <input type="number" id="to" class="form-control">
+                <label for="form" class="float-right" id="MaxLabel"></label>
+                <input type="range" name="maxPrice" [(ngModel)]="filters.PriceMax" class="form-control" min="0" max="1000" step="5"
+                oninput="document.getElementById('MaxLabel').innerHTML = this.value;">
             </div>
 
         <br>
 
-            <button class="btn btn-primary btn-block btn-sm">Filtrar</button>
+            <button class="btn btn-primary btn-block btn-sm" (click)="loadFilters()">Filtrar</button>
         </form>
 
     </div>

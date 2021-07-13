@@ -34,8 +34,10 @@ namespace TiendaWeb
             services.AddControllers();
             services.AddCors(options =>
             {
+                //add_header 'Access-Control-Allow-Origin' 'http://localhost:4200' always;
+                
                 options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins("http://localhost:4200"));
+                    builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
             });
             services.AddSwaggerGen(c =>
             {

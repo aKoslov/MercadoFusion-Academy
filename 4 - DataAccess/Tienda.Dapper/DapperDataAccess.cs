@@ -13,7 +13,7 @@ namespace Tienda.Dapper
     public class DapperDataAccess : IProductsCategoryLogic, IUsersLogic
     {
 
-        string connectionString = @"Data Source = .; Initial Catalog = MercadoFusion; Integrated Security = True; Persist Security Info = false; Trusted_Connection = True";
+        string connectionString = @"Data Source = ALEJO\SQLEXPRESs; Initial Catalog = MercadoFusion; Integrated Security = True; Persist Security Info = false; Trusted_Connection = True";
 
         public DapperDataAccess()
         {

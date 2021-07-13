@@ -55,19 +55,21 @@ namespace TiendaWeb.Controllers
         // ---------------------------------------- Post User Signup ----------------------------------------
         // POST: api/<User>
         [HttpPost("signup")]
-        public ActionResult Post([FromQuery] string Username, string Name, string LastName, int DNI, string Password, [FromServices] IUsersLogic userLogic)
+        public ActionResult Post([FromBody] UserForSign user, [FromServices] IUsersLogic userLogic)
         {
 
             if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)
             {
-
+                if (!ModelState.IsValid) { 
+                return BadRequest(); 
+                }
                 try
                 {
-                    var hash = new Tienda.Logic.DataHashing();
+                    //var hash = new Tienda.Logic.DataHashing();
                     //string newSalt = hash.GenerateSalt();
                     //string hPassword = hash.ComputeHash(Password, newSalt);
 
-                    var newUserData = new Tienda.Dto.User() { Username = Username, Name = Name, LastName = LastName, DNI = DNI };
+                    var newUserData = new Tienda.Dto.User() { Username = user.Username, Name = user.Name, LastName = user.LastName, DNI = user.DNI };
 
                     //var newUserData = new User() { Username = username, 
                     //                               Name = name,
@@ -75,7 +77,7 @@ namespace TiendaWeb.Controllers
                     //                               DNI = dni, 
                     //                               PhoneNumber = phonenumber,
                     //                               CreationDate = DateTime.Now } ;
-                    userLogic.UserSignup(newUserData, Password);
+                    userLogic.UserSignup(newUserData, user.Password);
                 }
                 catch (Exception e)
                 {
@@ -95,7 +97,7 @@ namespace TiendaWeb.Controllers
         // ---------------------------------------- Get Users List ----------------------------------------
         // GET: api/<User>
         [HttpGet("clientes/token")]
-        public ActionResult<IEnumerable<UserForList>> GetUsersList([FromServices] IUsersLogic userLogic)
+        public ActionResult<IEnumerable<UserBase>> GetUsersList([FromServices] IUsersLogic userLogic)
         {
 
             if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Staff)
@@ -125,7 +127,7 @@ namespace TiendaWeb.Controllers
         // ---------------------------------------- Get User Info ----------------------------------------
         // GET: api/<User>
         [HttpGet("cuenta/token")]
-        public ActionResult<UserForList> GetUserInfo([FromServices] IUsersLogic userLogic)
+        public ActionResult<UserBase> GetUserInfo([FromServices] IUsersLogic userLogic)
         {
 
             if (Program.RetrieveSession().RetrieveSession().SessionType != Tienda.Dto.UserTypes.Guest)
@@ -136,7 +138,7 @@ namespace TiendaWeb.Controllers
                     //Token de Sesión daría lugar a transportar información de manera sutil
                     //Por ahora la info que viaja es el UserID
                     var userInfo = userLogic.DisplayUserInfo(Program.RetrieveSession().RetrieveUser().Username);
-                    return Ok(new UserForList(/*(int)userInfo.UserID,*/ userInfo.Username, userInfo.Name, userInfo.LastName, userInfo.DNI, userInfo.CreationDate));
+                    return Ok(new UserBase(/*(int)userInfo.UserID,*/ userInfo.Username, userInfo.Name, userInfo.LastName, userInfo.DNI, userInfo.CreationDate));
                 }
                 catch (Exception e)
                 {
@@ -154,7 +156,7 @@ namespace TiendaWeb.Controllers
         // ---------------------------------------- Get User Password ----------------------------------------
         // GET: api/<User>
         [HttpGet("cuenta/forgotpassword")]
-        public ActionResult<UserForList> Get([FromServices] IUsersLogic userLogic)
+        public ActionResult<UserForAuth> Get([FromServices] IUsersLogic userLogic)
         {
 
             if (Program.RetrieveSession().RetrieveSession().SessionType != Tienda.Dto.UserTypes.Guest)

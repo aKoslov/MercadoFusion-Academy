@@ -13,6 +13,11 @@ import { FiltersComponent } from './components/shopping/filters/filters.componen
 import { ProductsListComponent } from './components/shopping/products-list/products-list.component';
 import { CartItemComponent } from './components/shopping/cart/cart-item/cart-item.component';
 import { ProductListItemComponent } from './components/shopping/products-list/product-item/product-item.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AccountComponent } from './components/users/account/account.component';
+import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
+import { SignupComponent } from './components/users/signup/signup.component';
+import { LoginComponent } from './components/users/login/login.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +30,18 @@ import { ProductListItemComponent } from './components/shopping/products-list/pr
     FiltersComponent,
     ProductsListComponent,
     CartItemComponent,
-    ProductListItemComponent
+    ProductListItemComponent,
+    SignupComponent,
+    LoginComponent,
+    AccountComponent,
+    PagenotfoundComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

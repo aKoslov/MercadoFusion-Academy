@@ -1,3 +1,11 @@
-<div class="cart-item">
-    <span>{{ cartItem.name}} </span> x <span> {{cartItem.quantity}}</span>: <strong>{{ cartItem.quantity * cartItem.price | currency:'$' }}</strong>
+
+<div class="cart-item"> 
+     <div class="col">
+        <span>{{ cartItem.name}} </span> x <span> {{cartItem.quantity}}</span>:
+        <br>
+        <strong>{{ cartItem.quantity * cartItem.price | currency:'$' }}</strong>
+    </div>
+    <div class="hover-btn">
+        <button type="button" class="btn-close" aria-label="close" (click)="removeItem()"></button>
+    </div>
 </div>

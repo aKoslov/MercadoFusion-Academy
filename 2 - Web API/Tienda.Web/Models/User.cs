@@ -5,27 +5,38 @@ using System.Threading.Tasks;
 
 namespace TiendaWeb.Models
 {
-    public class UserBase
-    {
-        public int UserID { get; }
 
-        public string Username { get; set; }
 
-        public string Name { get; set; }
-
-        public string LastName { get; set; }
-
-        public int DNI { get; set; }
-
-        public DateTime CreationDate { get; }
-    }
-
-    public class UserForList
+    public class UserForAuth
     {
         //public int UserID { get; }
 
         public string Username { get; set; }
 
+        public string Password { get; set; }
+
+    }
+    public class UserForSign
+    {
+        public string Username { get; set; }
+
+        public string Password { get; set; }
+
+        public string Name { get; set; }
+
+        public string LastName { get; set; }
+
+        public int DNI { get; set; }
+
+    }
+        public class UserBase
+    {
+        public int UserID { get; }
+
+        public string Username { get; set; }
+
+        public string Password { get; }
+
         public string Name { get; set; }
 
         public string LastName { get; set; }
@@ -34,7 +45,7 @@ namespace TiendaWeb.Models
 
         public DateTime CreationDate { get; }
 
-        public UserForList(/*int userID,*/ string username, string name, string lastName, int dni, DateTime creationDate)
+        public UserBase(/*int userID,*/ string username, string name, string lastName, int dni, DateTime creationDate)
         {
             //UserID = userID;
             Username = username;

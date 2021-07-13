@@ -1,7 +1,7 @@
 
       <div class=" products-catalog row products-list row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         
-        <div class="alert alert-warning box" *ngIf="productsList.length === 0">
+        <div class="alert alert-warning box float-center" *ngIf="productsList.length === 0">
             <p>¡No hay productos para mostrar!</p>
           </div>
         <div class="col" *ngFor="let product of productsList">

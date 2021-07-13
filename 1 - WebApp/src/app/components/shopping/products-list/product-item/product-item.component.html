@@ -1,21 +1,31 @@
 
-          <div class="card shadow-sm product-item">
+          <div class="card shadow-sm product-item position-relative">
             <img class="bd-placeholder-img card-img-top p-2" width="100%" src="{{productItem.imageUrl}}"/>
             
             <div class="card-body">
+
               <p class="card-text">
                 
+              <strong>{{ productItem.name }}</strong> 
+
               </p>
-              <p class="card-text">{{productItem.name}}</p>
-                
-              <div class="d-flex justify-content-between align-items-center">
+
+              <i *ngIf="!addedToWishList" class="far fa-heart" (click)="handleAddToWishList()"></i>
+              <i *ngIf="addedToWishList" class="fas fa-heart" (click)="handleRemoveFromWishList()"></i>
+              <p class="card-text">{{productItem.description | slice:0:80 }}</p>
+
+
+              
+
+              <div class="position-absolute bottom-0" style="margin-bottom: 10px;">
                 <div class="btn-group">
                   
                   <button type="button" 
                           class="btn btn-sm btn-outline-secondary product-btn" 
                           (click)="handleAddToCart()">Al carrito</button>
                   
-                  <strong><small class="text-muted">&emsp;{{ productItem.price | currency: '$' }}</small></strong>
+                  <strong><small class="text-muted float-right">&emsp;{{ productItem.price | currency: '$' }}</small></strong>
+                  
                 </div>
               </div>
             </div>
