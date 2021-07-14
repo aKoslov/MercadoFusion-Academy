@@ -18,7 +18,6 @@ export class CartItemComponent implements OnInit {
   }
 
   removeItem() {
-    this.messenger.sendMessage(this.cartItem)
     this.cart.removeFromCart(this.cartItem)
   }
 
