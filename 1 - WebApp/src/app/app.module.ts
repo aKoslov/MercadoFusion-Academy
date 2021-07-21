@@ -18,6 +18,7 @@ import { AccountComponent } from './components/users/account/account.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { SignupComponent } from './components/users/signup/signup.component';
 import { LoginComponent } from './components/users/login/login.component';
+import { ProductSearchComponent } from './components/shopping/product-search/product-search.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { LoginComponent } from './components/users/login/login.component';
     SignupComponent,
     LoginComponent,
     AccountComponent,
-    PagenotfoundComponent
+    PagenotfoundComponent,
+    ProductSearchComponent
   ],
   imports: [
     BrowserModule,

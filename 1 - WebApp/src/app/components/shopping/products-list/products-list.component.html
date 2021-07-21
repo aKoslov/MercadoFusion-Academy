@@ -1,11 +1,21 @@
 
-      <div class=" products-catalog row products-list row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+      <div class="products-catalog row products-list row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         
         <div class="alert alert-warning box float-center" *ngIf="productsList.length === 0">
             <p>¡No hay productos para mostrar!</p>
           </div>
-        <div class="col" *ngFor="let product of productsList">
+        <div class="col active" *ngFor="let product of productsList">
             <app-product-list-item [productItem]="product"></app-product-list-item>
+        </div>
+        <div class="container">
+          <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group mx-auto container" role="group">
+                <button class="m-1 btn-warning btn-circle"><<</button>
+                <button class="m-1 btn-warning btn-circle">1</button>
+                <button class="m-1 btn-warning btn-circle">>></button>
+            </div>
           </div>
+        </div>
 
         </div>

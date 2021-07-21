@@ -1,19 +1,19 @@
-<app-nav> </app-nav>
-
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <app-header></app-header>
+<div class="col position-relative container">
+  
+    <div class="row">
+      <app-nav></app-nav>
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <router-outlet></router-outlet>
+    
+    <div class="container" style="margin-top: -2%;">
+      <div class="row m-0">
+        <div class="col">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+      <div class="row bottom-0 float-down red-grad" style="margin: 0 auto; display: block">
+        <div class="col">
+          <app-footer></app-footer>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="row bottom-0 float-down" style="margin: 0 auto; display: block">
-    <div class="col">
-      <app-footer></app-footer>
-    </div>
-  </div>
 </div>

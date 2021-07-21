@@ -1,10 +1,9 @@
 export class CatalogFilters {
 
-    Category?: number
-    PriceMin?: number
-    PriceMax?: number
-    Status?: number
-
+    public Category: number 
+    public PriceMin: number
+    public PriceMax: number 
+    public Status: number
 
     constructor (category: number,
                  pricemax: number,

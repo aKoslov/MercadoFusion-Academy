@@ -1,50 +1,68 @@
+<div class="card-header blue-grad text-center">
+    <strong class="filtersTitle">Filtros</strong>
+</div>
+
 <div class="card filters" width="fill">
 
-    <div class="card-header">
-        <strong>Filtros</strong>
-    </div>
-
+    
     <div class="card-body align-items-center">
 
         <form>
             
-            
             <div class="alert alert-warning box" *ngIf="categoriesList.length === 0">
-                <p>¡Nos robaron las categorías!</p>
+                <p style="height: 5px;">¡Nos robaron las categorías!</p>
             </div>
 
-            <div    class="categoriesList"
-                    *ngIf="categoriesList.length > 0">
+            <div *ngIf="categoriesList.length > 0">
                 <p class="form-group align-middle filtersLabels">Categorías</p>
-                <div class="col categoriesList"  
-                    *ngFor="let cat of categoriesList"
-                    (click)="filterCategory(cat.categoryID)"
-                    onhover="cursor: pointer">
-                    <p>{{cat.description}}</p>
+                <hr class="stopper">
+                
+                <p class="" *ngIf="categoryFilter" (click)="filterCategory(0)">Todas</p>
+                <ul class="categoriesUL">
+                    <li class="col categoriesList shadow-outline"  
+                        *ngFor="let cat of categoriesList"
+                        (click)="filterCategory(cat.categoryID)">
+                        <p class="categoriesP">{{cat.description}}</p>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="form-group filtersLabels">
+            <hr class="stopper" style="margin-bottom: 0;">
+                <button class="btn filtersLabels text-left col-xs-11 " (click)="filterStock()" *ngIf="this.filters.Status === 0">Sólo Productos Disponibles</button>
+                <button class="btn filtersLabels text-left col-xs-11 " (click)="filterStock()" *ngIf="this.filters.Status === 1">Productos Sin Stock También</button>
+            <hr class="stopper" style="margin-top: 0;">
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="form " class="">Mínimo</label>
+                </div>
+                <div class="col">
+                    <label class="MinLabel" id="MinLabel">$0</label>
+                </div>
+                <div class="w-100">
+                    <div class="form-group">
+                        <input id="ex2" type="range" class="form-control-range" value="0" min="0" max="1000" step="5"
+                        id="MinRange" oninput="MinLabel.innerHTML='$' + value">
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group filtersLabels">
-                <button class="btn" (click)="filterStock()" *ngIf="this.filters.Status == 0">Sólo Productos Disponibles</button>
-                <button class="btn" (click)="filterStock()" *ngIf="this.filters.Status == 1">Productos Sin Stock También</button>
-            </div>
-
-            <div class="form-group">
-                <label for="form">Mínimo</label>
-                <label for="form" class="float-right" id="MinLabel"></label>
-                <input type="range" id="from" class="form-control" min="0" max="1000" step="5"
-                oninput="document.getElementById('MinLabel').innerHTML = this.value;">
-            </div>
-
-            <div class="form-group">
-                <!-- <mat-slider thumbLabel min="1" max="10" step="1" value="4"></mat-slider>
-
-                <mat-slider tickInterval="2" thumbLabel min="1" max="10" step="1" value="4"></mat-slider> -->
-                <label for="to">Máximo</label>
-                <label for="form" class="float-right" id="MaxLabel"></label>
-                <input type="range" name="maxPrice" [(ngModel)]="filters.PriceMax" class="form-control" min="0" max="1000" step="5"
-                oninput="document.getElementById('MaxLabel').innerHTML = this.value;">
-            </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <label for="form " class="">Máximo</label>
+                    </div>
+                    <div class="col">
+                        <label class="MaxLabel" id="MaxLabel">$0</label>
+                    </div>
+                    <div class="w-100">
+                        <div class="form-group">
+                            <input id="ex2" type="range" class="form-control-range" value="0" min="0" max="1000" step="5"
+                            id="MaxRange" oninput="MaxLabel.innerHTML='$' + value">
+                        </div>
+                    </div>
+                </div>
 
         <br>
 

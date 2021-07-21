@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { productUrl } from 'src/app/config/api';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CatalogFilters } from 'src/app/models/catalog-filters';
 import { Product } from 'src/app/models/product';
 import { ProductCategory } from 'src/app/models/product-category';
@@ -14,22 +13,21 @@ import { ProductsListComponent } from '../products-list/products-list.component'
 })
 export class FiltersComponent implements OnInit {
 
+  @Output() filtersEvent: EventEmitter<CatalogFilters> = new EventEmitter<CatalogFilters>()
+
   maxPrice: number = 0
   minPrice: number = -1
-
   filters = {
-    Category: 0,
-    PriceMin: -1,
-    PriceMax: 0,
-    Status: -1
-  }
+     Category: 0,
+     PriceMin: -1,
+     PriceMax: 0,
+     Status: 0
+   }
   sendFilters: string = ""
   categoriesList: ProductCategory[] = []
-  //https://localhost:5001/api/Product/catalogo/filtros?Category=1&Price=10&Status=1&index=1&fetch=10
+  categoryFilter: boolean = false
 
-  constructor(private categoryService: CategoryService,
-              private productService: ProductService,
-              private prod: ProductsListComponent) { }
+  constructor(private categoryService: CategoryService) { }
 
   ngOnInit(): void {
 
@@ -39,10 +37,17 @@ export class FiltersComponent implements OnInit {
 
   }
 
+  
+
   loadFilters() {
     this.sendFilters = ""
-    if (this.filters.Category != 0)
-    this.sendFilters += "&Category=" + this.filters.Category    
+    if (this.filters.Category != -1)
+    {
+    if (this.filters.Category === 0)
+     this.categoryFilter = false
+    this.sendFilters += "&Category=" + this.filters.Category
+    this.categoryFilter = true
+    }
     if (this.filters.PriceMax != 0) 
     this.sendFilters += "&priceMax=" + this.filters.PriceMax
     if (this.filters.PriceMin != -1)
@@ -51,14 +56,9 @@ export class FiltersComponent implements OnInit {
     this.sendFilters += "&status=" + this.filters.Status
     if (this.sendFilters != "")
     {
-      this.productService.getProductsFiltered(this.sendFilters).subscribe((products: Product[]) => {
-        this.prod.loadProducts(products)
-      })
-
+      this.filtersEvent.emit(new CatalogFilters(this.filters.Category, this.filters.PriceMax, this.filters.PriceMin, this.filters.Status))
     }
-
   }
-
   filterCategory(category: number) {
     this.filters.Category = category
   }

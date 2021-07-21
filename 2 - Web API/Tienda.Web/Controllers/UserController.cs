@@ -11,7 +11,12 @@ namespace TiendaWeb.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private IUsersLogic userLogic;
 
+        public UserController(IUsersLogic userLogic)
+        {
+            this.userLogic = userLogic;
+        }
         // ---------------------------------------- Post User Login ----------------------------------------
         // POST: api/<Product>
         [HttpPost("login")]
@@ -55,7 +60,7 @@ namespace TiendaWeb.Controllers
         // ---------------------------------------- Post User Signup ----------------------------------------
         // POST: api/<User>
         [HttpPost("signup")]
-        public ActionResult Post([FromBody] UserForSign user, [FromServices] IUsersLogic userLogic)
+        public ActionResult Post([FromBody] UserForSign user)
         {
 
             if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)

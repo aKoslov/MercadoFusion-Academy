@@ -13,7 +13,7 @@ export class ProductListItemComponent implements OnInit {
 
   addedToWishList: boolean = false;
 
-  @Input() productItem: Product = new Product(0, 0, '', '', 0, new Date(), '')
+  @Input() productItem: Product = new Product(0, 0, '', '', 0, new Date())
 
   constructor(private messenger: MessengerService,
               private wishlistService: WishListService          

@@ -1,11 +1,12 @@
-<div class="row">
-    <div class="col">
-        <app-filters></app-filters>
+<div class="row position-relative">
+    <div class="col" style="max-width: 20%;">
+        <app-filters (filtersEvent)="filtersEvent($event)"></app-filters>
     </div>
-    <div class="col">
-        <app-products-list></app-products-list>
+    <div class="col" style="max-width: 55%;">
+        <app-product-search (searchEvent)="searchEvent($event)"></app-product-search>
+        <app-products-list [productsList]="productList"></app-products-list>
     </div>
-    <div class="col">
+    <div class="col" style="max-width: 25%;">
         <app-cart></app-cart>
     </div>
 </div>
