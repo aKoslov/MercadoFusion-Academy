@@ -8,6 +8,8 @@ export const productcategoryUrl = baseUrl + '/ProductsCategory/'
 
 export const userUrl = baseUrl + '/User/'
 
+export const orderUrl = baseUrl + '/Order/'
+
 
 
 

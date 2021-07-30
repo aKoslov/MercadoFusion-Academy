@@ -8,9 +8,9 @@ namespace Tienda.Dto
 
         public string Name { get; set; }
 
-        public string LastName { get; set; }
+        public string Surname { get; set; }
 
-        public int DNI { get; set; }
+        public int DocumentNumber { get; set; }
 
         public DateTime CreationDate { get; set; }
 

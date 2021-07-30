@@ -1,0 +1,21 @@
+<div class="d-flex flex-column mt-2 mx-auto shadow-sm mb-4" style="width: 90%;">
+    <div class="">
+        <div class="d-flex flex-row">
+            <p class="order-1" style="width: 60%;">{{ orderItem.name }}</p>
+            <p class="order-2" style="width: 15%;">${{ orderItem.unitPrice }} <strong> x </strong> </p>
+            <p class="order-3" style="width: 15%;" *ngIf="false">{{ orderItem.quantity }}></p>
+            <ng-container *ngIf="true">
+                <input type="number" id="quantity" name="quantity"
+                       class="order-3"
+                       style="width: 55px; height: 24px;"
+                       max="50" min="1"
+                       [(ngModel)]="orderItem.quantity"
+                       (input)="setQuantity()">
+            </ng-container>
+            <p class="order-4" style="width: 20%;">${{ orderItem.unitPrice * orderItem.quantity }}</p>
+        </div>
+    </div>
+        <div class="flex-row">
+            <p class="float-start ms-3">{{ orderItem.description }}</p>
+        </div>
+</div>

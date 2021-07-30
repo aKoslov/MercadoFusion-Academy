@@ -1,19 +1,9 @@
 export class CatalogFilters {
 
-    public Category: number 
-    public PriceMin: number
-    public PriceMax: number 
-    public Status: number
+    public Category: number = 0
+    public PriceMin: number = 0
+    public PriceMax: number = -1
+    public Status: number = -1
 
-    constructor (category: number,
-                 pricemax: number,
-                 pricemin: number,
-                 status: number
-            ) {
-                this.Category = category,
-                this.PriceMax = pricemax,
-                this.PriceMin = pricemin,
-                this.Status = status
-    }
 
 }

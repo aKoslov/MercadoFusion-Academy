@@ -1,1 +1,26 @@
-<p>account works!</p>
+<div class="row position-relative">
+    <div class="col me-5 text-center" style="max-width: 20%; height: 50%;">
+        <div class="card-header red-grad">
+            <strong class="sm">Cuenta</strong>
+        </div>
+        <div class="col card card-body align-items-center" [ngSwitch]="validateStaff()">
+                <button class="mb-3 text-dark btn btn-outline-primary" *ngSwitchCase="false" (click)="displayOrders()">Mis Pedidos</button>
+                <button class="mb-3 text-dark text-decoration-none btn btn-outline-primary" *ngSwitchCase="true" (click)="displayOrders()">Órdenes</button>
+                <button class="text-dark btn btn-outline-primary" (click)="displayUserInfo()">Configuración</button>
+        </div>
+    </div>
+    <div class="col" width="85%">
+        <ng-container *ngIf="ordersDisplay">
+            <div class="card-header red-grad shadow-sm" [ngSwitch]="validateStaff()">
+                <strong class="sm" *ngSwitchCase="false">Mis Pedidos</strong>
+                <strong class="sm" *ngSwitchCase="true">Órdenes</strong>
+            </div>
+             <ng-container *ngIf="!validateStaff">
+                <app-order-list class="card" [userId]="17"></app-order-list>
+            </ng-container> 
+        </ng-container>
+        <ng-container *ngIf="accountInfoDisplay">
+            <app-user-info [userId]="userId"></app-user-info>
+        </ng-container>
+    </div>
+</div>

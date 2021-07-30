@@ -1,74 +1,70 @@
-<div class="card-header blue-grad text-center">
-    <strong class="filtersTitle">Filtros</strong>
+<div class="card-header blue-grad">
+    <strong class="sm">Filtros</strong>
 </div>
-
 <div class="card filters" width="fill">
-
-    
     <div class="card-body align-items-center">
-
-        <form>
-            
+        <form #filtersForm>
             <div class="alert alert-warning box" *ngIf="categoriesList.length === 0">
                 <p style="height: 5px;">¡Nos robaron las categorías!</p>
             </div>
-
             <div *ngIf="categoriesList.length > 0">
                 <p class="form-group align-middle filtersLabels">Categorías</p>
                 <hr class="stopper">
-                
-                <p class="" *ngIf="categoryFilter" (click)="filterCategory(0)">Todas</p>
-                <ul class="categoriesUL">
-                    <li class="col categoriesList shadow-outline"  
+                <ul class="categoriesUL lh-2">
+                    <li *ngIf="categoryFilter">
+                        <p class="orangeUnderline" (click)="filterCategory(0)">Todas</p>
+                    </li>
+                    <li class="categoriesList"  
                         *ngFor="let cat of categoriesList"
                         (click)="filterCategory(cat.categoryID)">
-                        <p class="categoriesP">{{cat.description}}</p>
+                        <p class="orangeUnderline">{{cat.description}}</p>
                     </li>
                 </ul>
             </div>
-            
             <div class="form-group filtersLabels">
-            <hr class="stopper" style="margin-bottom: 0;">
-                <button class="btn filtersLabels text-left col-xs-11 " (click)="filterStock()" *ngIf="this.filters.Status === 0">Sólo Productos Disponibles</button>
-                <button class="btn filtersLabels text-left col-xs-11 " (click)="filterStock()" *ngIf="this.filters.Status === 1">Productos Sin Stock También</button>
+            <hr class="stopper mb-0">
+                <button class="btn filtersLabels text-left col-xs-11 text-center" (click)="filterStock()" *ngIf="this.catalogFilters.Status === -1">Sólo Productos Disponibles</button>
+                <button class="btn filtersLabels text-left col-xs-11 text-center" (click)="filterStock()" *ngIf="this.catalogFilters.Status === 1">Productos Sin Stock También</button>
             <hr class="stopper" style="margin-top: 0;">
+            <div class="text-center align-items-center" *ngIf="hasWishlist()">
+                <hr class="stopper mb-0 mt-2">
+                    <button class="btn filtersLabels text-left col-xs-11 text-center">Lista de Compra</button>
+                <hr class="stopper mt-0">
             </div>
-
+            </div>
             <div class="row">
                 <div class="col">
                     <label for="form " class="">Mínimo</label>
                 </div>
                 <div class="col">
-                    <label class="MinLabel" id="MinLabel">$0</label>
+                    <label class="MinLabel" id="MinLabel">${{ listMinPrice }}</label>
                 </div>
                 <div class="w-100">
                     <div class="form-group">
-                        <input id="ex2" type="range" class="form-control-range" value="0" min="0" max="1000" step="5"
-                        id="MinRange" oninput="MinLabel.innerHTML='$' + value">
+                        <input type="range" class="form-control-range" value="0" min="{{ listMinPrice }}" max="{{ listMaxPrice }}" step="2"
+                        id="MinRange" oninput="MinLabel.innerHTML='$' + value; MaxLabel.min = value;" [(ngModel)]="catalogFilters.PriceMin" name="MinRange">
                     </div>
                 </div>
             </div>
                 <br>
-                <div class="row">
-                    <div class="col">
-                        <label for="form " class="">Máximo</label>
-                    </div>
-                    <div class="col">
-                        <label class="MaxLabel" id="MaxLabel">$0</label>
-                    </div>
-                    <div class="w-100">
-                        <div class="form-group">
-                            <input id="ex2" type="range" class="form-control-range" value="0" min="0" max="1000" step="5"
-                            id="MaxRange" oninput="MaxLabel.innerHTML='$' + value">
-                        </div>
+            <div class="row">
+                <div class="col">
+                    <label for="form " class="">Máximo</label>
+                </div>
+                <div class="col">
+                    <label class="MaxLabel" id="MaxLabel">${{ listMaxPrice }}</label>
+                </div>
+                <div class="w-100">
+                    <div class="form-group">
+                        <input type="range" class="form-control-range" [value]="listMaxPrice" [min]="listMinPrice" max="{{ listMaxPrice }}" step="2"
+                        id="MaxRange" oninput="MaxLabel.innerHTML='$' + value" [(ngModel)]="catalogFilters.PriceMax" name="MaxRange">
                     </div>
                 </div>
-
+            </div>
         <br>
-
-            <button class="btn btn-primary btn-block btn-sm" (click)="loadFilters()">Filtrar</button>
+            <div class="text-center">
+                <button class="btn filter-btn btn-block btn-sm mb-2" (click)="loadFilters()">Filtrar</button>
+            </div>
         </form>
-
     </div>
-
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { CartItem } from 'src/app/models/cart-item';
 import { Product } from 'src/app/models/product';
 import { MessengerService } from "src/app/services/messenger.service";
 import { WishListService } from "src/app/services/wishlist.service";
@@ -12,34 +13,30 @@ import { WishListService } from "src/app/services/wishlist.service";
 export class ProductListItemComponent implements OnInit {
 
   addedToWishList: boolean = false;
+  quantity: number = 1
 
-  @Input() productItem: Product = new Product(0, 0, '', '', 0, new Date())
+  @Input() productItem: Product = new Product(0, 0, '', '', 0, new Date(), -1)
 
   constructor(private messenger: MessengerService,
               private wishlistService: WishListService          
     ) {}
 
-
-      //Solución posiblemente más eficiente
   ngOnInit() {
-    this.addedToWishList = this.wishlistService.isAdded(this.productItem.productID)
+    this.addedToWishList = this.wishlistService.isAdded(this.productItem.id)
   }
-      //Solución más acorde
-  // ngOnChange() {
-
-  // }
-
+  
   handleAddToCart () {
-    this.messenger.sendMessage(this.productItem)
+    let parsedCartItem: CartItem = new CartItem(this.productItem.id, this.productItem.name, this.productItem.description, this.productItem.price, this.quantity)
+    this.messenger.sendMessage(parsedCartItem)
   }
 
   handleAddToWishList () {
-    this.wishlistService.addToWishList(this.productItem.productID)
+    this.wishlistService.addToWishList(this.productItem.id)
     this.addedToWishList = true
   }
 
   handleRemoveFromWishList () {
-    this.wishlistService.removeFromWishList(this.productItem.productID)
+    this.wishlistService.removeFromWishList(this.productItem.id)
     this.addedToWishList = false
   }
 }

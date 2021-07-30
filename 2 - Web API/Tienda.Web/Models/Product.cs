@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Tienda.Dto;
 
-namespace TiendaWeb.Models
+namespace Tienda.WebAPI.Models
 {
     public class ProductBase
     {
@@ -16,7 +16,14 @@ namespace TiendaWeb.Models
         public int CategoryID { get; set; }
         [Required]
         public ProductStatus StatusID { get; set; }
-
+    }
+        public class ProductToSend
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public int StatusID { get; set; }
+        public int CategoryID { get; set; }
     }
 
     public class ProductForList

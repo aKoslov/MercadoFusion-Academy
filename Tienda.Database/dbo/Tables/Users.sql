@@ -7,10 +7,13 @@
     [Username]       VARCHAR (50) NOT NULL,
     [Password]       VARCHAR (50) NOT NULL,
     [StatusId]       TINYINT      CONSTRAINT [DF_Users_StatusId] DEFAULT ((1)) NOT NULL,
+    [UserType]       TINYINT      NULL,
     CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_Users_UserStatus] FOREIGN KEY ([StatusId]) REFERENCES [dbo].[UserStatus] ([UserStatusId]),
     CONSTRAINT [UK_Users] UNIQUE NONCLUSTERED ([Id] ASC, [Username] ASC, [DocumentNumber] ASC)
 );
+
+
 
 
 

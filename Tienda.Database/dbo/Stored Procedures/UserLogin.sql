@@ -21,12 +21,21 @@ GO
 */
 
 
-CREATE   PROCEDURE [dbo].[UserLogin]	(
+CREATE PROCEDURE [dbo].[UserLogin]	(
 	@username [nvarchar](50),
 	@password [nvarchar](300)
 		)
 AS
 	BEGIN
 	SET NOCOUNT ON
-		SELECT Id, Username FROM Users WHERE Username = @username AND Password = @password
+
+		
+		IF (SELECT COUNT(*) FROM Users WHERE Username = @username AND Password = @password) > 0
+		BEGIN
+		SELECT Id, UserType FROM Users WHERE Username = @username AND Password = @password
+		END
+		ELSE
+		BEGIN
+		SELECT -1, -1
+		END
 	END

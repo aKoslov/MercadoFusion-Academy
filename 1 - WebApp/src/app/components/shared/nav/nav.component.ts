@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { UserTypes } from 'src/app/config/enums';
 
 @Component({
   selector: 'app-nav',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+
+  @Input() userType: UserTypes = UserTypes.Guest
 
   constructor() { }
 

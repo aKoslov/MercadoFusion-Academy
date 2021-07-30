@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\5 - Common\Tienda.Interfaces\Tienda.Interfaces.csproj" />
-    <ProjectReference Include="..\..\4 - DataAccess\Tienda.Dapper\Tienda.Dapper.csproj" />
+    <ProjectReference Include="..\..\4 - DataAccess\Tienda.Dapper\Tienda.DapperDA.csproj" />
   </ItemGroup>
 
 </Project>

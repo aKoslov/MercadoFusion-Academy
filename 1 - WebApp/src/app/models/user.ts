@@ -1,4 +1,22 @@
-export class UserInfo {
+export class UserDto {
+    public userId: number = -1
+    public name: string = ''
+    public lastName: string = ''
+    public username: string = ''
+    public dni: number = -1
+    public creationDate: Date = new Date
+    public statusId: number = -1
+}
+
+export class UserLogin {
+    constructor (public username: string,
+                 public password: string) {
+                     this.username = username
+                     this.password = password
+                 }
+}
+
+export class UserForSignup {
 
     public userId?: number
     public password?:string
@@ -6,17 +24,22 @@ export class UserInfo {
     constructor (
                  public name: string,
                  public lastName: string, 
-                //  public email: string,
                  public dni: number, 
-                //  public birthdate: Date, 
                  public username: string) 
         {
-            this.name = name
+            this.name = name 
             this.lastName = lastName
-            // this.email = email
             this.dni = dni
-            // this.birthdate = birthdate
             this.username = username
         }
+}
 
+export class UsersListResponse {
+    constructor (
+                public list: UserDto[],
+                public count: number)
+        {
+            this.list = list
+            this.count = count
+        }
 }

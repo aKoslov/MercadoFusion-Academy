@@ -1,10 +1,16 @@
 <div class="row position-relative">
     <div class="col" style="max-width: 20%;">
-        <app-filters (filtersEvent)="filtersEvent($event)"></app-filters>
+        <app-filters [listMaxPrice]="listMaxPrice" 
+                     [listMinPrice]="listMinPrice" 
+                     (filtersEvent)="filtersEvent($event)"></app-filters>
     </div>
     <div class="col" style="max-width: 55%;">
-        <app-product-search (searchEvent)="searchEvent($event)"></app-product-search>
-        <app-products-list [productsList]="productList"></app-products-list>
+        <app-products-list [productsList]="productsList" 
+                           [productCount]="productCount" 
+                           [listFetch]="listFetch" 
+                           [listPages]="listPages"
+                           (searchEvent)="searchEvent($event)"
+                           (indexEvent)="indexEvent($event)"></app-products-list>
     </div>
     <div class="col" style="max-width: 25%;">
         <app-cart></app-cart>

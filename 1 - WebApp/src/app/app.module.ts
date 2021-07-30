@@ -18,7 +18,16 @@ import { AccountComponent } from './components/users/account/account.component';
 import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
 import { SignupComponent } from './components/users/signup/signup.component';
 import { LoginComponent } from './components/users/login/login.component';
-import { ProductSearchComponent } from './components/shopping/product-search/product-search.component';
+import { OrderComponent } from './components/order-list/order/order.component';
+import { OrderListComponent } from './components/order-list/order-list.component';
+import { OrderItemComponent } from './components/order-list/order/order-item/order-item.component';
+import { CheckoutComponent } from './components/shopping/checkout/checkout.component';
+import { SuccessPopUpComponent } from './components/shared/success-pop-up/success-pop-up.component';
+import { UserInfoComponent } from './components/users/user-info/user-info.component';
+import { BackofficeComponent } from './components/backoffice/backoffice.component';
+import { ProductManagementComponent } from './components/backoffice/product-management/product-management.component';
+import { CategoriesManagementComponent } from './components/backoffice/categories-management/categories-management.component';
+import { CustomersManagementComponent } from './components/backoffice/customers-management/customers-management.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +45,16 @@ import { ProductSearchComponent } from './components/shopping/product-search/pro
     LoginComponent,
     AccountComponent,
     PagenotfoundComponent,
-    ProductSearchComponent
+    OrderComponent,
+    OrderListComponent,
+    OrderItemComponent,
+    CheckoutComponent,
+    SuccessPopUpComponent,
+    UserInfoComponent,
+    BackofficeComponent,
+    ProductManagementComponent,
+    CategoriesManagementComponent,
+    CustomersManagementComponent
   ],
   imports: [
     BrowserModule,

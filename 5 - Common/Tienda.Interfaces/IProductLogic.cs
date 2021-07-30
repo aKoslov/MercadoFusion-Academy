@@ -5,19 +5,17 @@ namespace Tienda.Interfaces
 {
     public interface IProductLogic
     {
-        List<Product> GetProductsPaginated(int index, int fetch);
+        ProductList GetProductsPaginated(int index, int fetch, string order);
 
-        List<Product> GetProductsFiltered(string[] filters, int index, int fetch);
+        ProductList GetProductsFiltered(ProductFilters filters, int index, int fetch);
 
         Product GetProductByID(int id);
 
-        List<Product> GetProductByName(string name);
+        ProductList GetProductByName(string name);
 
-        Product CreateProduct(Product product);
-
-        //List<Product> ListProducts();
+        long CreateProduct(ProductForInsert product);
         
-        Product DeleteProduct(int id);
+        int DeleteProduct(int id);
 
         bool UpdateProduct(Product newProductData, int id);
     }

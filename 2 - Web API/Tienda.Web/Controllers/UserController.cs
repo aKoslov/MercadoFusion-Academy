@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using Tienda.Interfaces;
-using TiendaWeb.Models;
+using Tienda.WebAPI.Models;
 
 namespace TiendaWeb.Controllers
 {
@@ -11,37 +11,41 @@ namespace TiendaWeb.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IUsersLogic userLogic;
+        private IUserLogic userLogic;
 
-        public UserController(IUsersLogic userLogic)
+        public UserController(IUserLogic userLogic)
         {
             this.userLogic = userLogic;
         }
         // ---------------------------------------- Post User Login ----------------------------------------
         // POST: api/<Product>
         [HttpPost("login")]
-        public ActionResult Post([FromQuery] string username, string password, [FromServices] IUsersLogic userLogic)
+        public ActionResult Post([FromQuery] string username, string password, [FromServices] IUserLogic userLogic)
         {
-
-            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if (Program.RetrieveSession().RetrieveSession().UserType == 1)
             {
 
                 try
                 {
-                    string[] key = new string[] { };
+                    //string[] key = new string[] { };
                     //key = userLogic.UserTryLogin(username);
-                    string[] newSession = new string[2];
+                    //string[] newSession = new string[2];
                     //var hash = new Tienda.Logic.DataHashing();
                     //for (var i = 0; i < key.Length; i++)
                     //{
-                        newSession = userLogic.UserLogin(username, password);
-                        if (newSession[0] != "" && newSession[1] != "") {
-                            Program.NewSession(new Tienda.Logic.UserLogic(new Tienda.Dto.UserSession() { SessionToken = new Guid().ToString(), SessionType = userLogic.ValidateUserType(username) }, newSession[1]));
-                        }
-                   //}
-                    if (newSession[0] == "" || newSession[1] == "")
+                    //newSession = userLogic.UserLogin(username, password);
+                    //if (newSession[0] != "" && newSession[1] != "") {
+                    //Program.NewSession(new Tienda.Logic.UserLogic(new Tienda.Dto.UserSession() { SessionToken = new Guid().ToString(), SessionType = userLogic.ValidateUserType(username) }, newSession[1]));
+                    //}
+                    //}
+                    var newLogin = userLogic.UserLogin(username, password);
+                    if (newLogin.UserId == -1)
                     {
                         return BadRequest("Credenciales incorrectas");
+                    } else 
+                    {
+                        return Ok(newLogin);
                     }
                 } catch (Exception e)
                 {
@@ -62,8 +66,8 @@ namespace TiendaWeb.Controllers
         [HttpPost("signup")]
         public ActionResult Post([FromBody] UserForSign user)
         {
-
-            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if (Program.RetrieveSession().RetrieveSession().UserType == 1)
             {
                 if (!ModelState.IsValid) { 
                 return BadRequest(); 
@@ -74,7 +78,7 @@ namespace TiendaWeb.Controllers
                     //string newSalt = hash.GenerateSalt();
                     //string hPassword = hash.ComputeHash(Password, newSalt);
 
-                    var newUserData = new Tienda.Dto.User() { Username = user.Username, Name = user.Name, LastName = user.LastName, DNI = user.DNI };
+                    var newUserData = new Tienda.Dto.User() { Username = user.Username, Name = user.Name, Surname = user.LastName, DocumentNumber = user.DNI };
 
                     //var newUserData = new User() { Username = username, 
                     //                               Name = name,
@@ -93,7 +97,7 @@ namespace TiendaWeb.Controllers
             }
             else
             {
-                return BadRequest("Ya tenés cuenta" + userLogic.RetrieveSession().SessionType);
+                return BadRequest("Ya tenés cuenta" + userLogic.RetrieveSession().UserType);
 
             }
         }
@@ -102,10 +106,10 @@ namespace TiendaWeb.Controllers
         // ---------------------------------------- Get Users List ----------------------------------------
         // GET: api/<User>
         [HttpGet("clientes/token")]
-        public ActionResult<IEnumerable<UserBase>> GetUsersList([FromServices] IUsersLogic userLogic)
+        public ActionResult<IEnumerable<UserBase>> GetUsersList([FromServices] IUserLogic userLogic)
         {
-
-            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Staff)
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if (Program.RetrieveSession().RetrieveSession().UserType == 1)
             {
 
                 try
@@ -121,10 +125,10 @@ namespace TiendaWeb.Controllers
             }
             else
             {
-                if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)
-                    return BadRequest("Iniciá sesión y ahí vemos\n" + userLogic.RetrieveSession().SessionType);
+                if (Program.RetrieveSession().RetrieveSession().UserType == 1)
+                    return BadRequest("Iniciá sesión y ahí vemos\n" + userLogic.RetrieveSession().UserType);
                 else
-                    return BadRequest("No tenés permiso     " + userLogic.RetrieveSession().SessionType);
+                    return BadRequest("No tenés permiso     " + userLogic.RetrieveSession().UserType);
             }
         }
 
@@ -132,18 +136,18 @@ namespace TiendaWeb.Controllers
         // ---------------------------------------- Get User Info ----------------------------------------
         // GET: api/<User>
         [HttpGet("cuenta/token")]
-        public ActionResult<UserBase> GetUserInfo([FromServices] IUsersLogic userLogic)
+        public ActionResult<UserBase> GetUserInfo([FromQuery] int userId, [FromServices] IUserLogic userLogic)
         {
-
-            if (Program.RetrieveSession().RetrieveSession().SessionType != Tienda.Dto.UserTypes.Guest)
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if (Program.RetrieveSession().RetrieveSession().UserType == 1)
             {
 
                 try
                 {
                     //Token de Sesión daría lugar a transportar información de manera sutil
                     //Por ahora la info que viaja es el UserID
-                    var userInfo = userLogic.DisplayUserInfo(Program.RetrieveSession().RetrieveUser().Username);
-                    return Ok(new UserBase(/*(int)userInfo.UserID,*/ userInfo.Username, userInfo.Name, userInfo.LastName, userInfo.DNI, userInfo.CreationDate));
+                    var userInfo = userLogic.DisplayUserInfo(userId);
+                    return Ok(new UserBase(/*(int)userInfo.UserID,*/ userInfo.Username, userInfo.Name, userInfo.Surname, userInfo.DocumentNumber, userInfo.CreationDate));
                 }
                 catch (Exception e)
                 {
@@ -153,7 +157,7 @@ namespace TiendaWeb.Controllers
             }
             else
             {
-                return BadRequest("Iniciá sesión y ahí vemos\n" + userLogic.RetrieveSession().SessionType);
+                return BadRequest("Iniciá sesión y ahí vemos\n" + userLogic.RetrieveSession().UserType);
 
             }
         }
@@ -161,10 +165,10 @@ namespace TiendaWeb.Controllers
         // ---------------------------------------- Get User Password ----------------------------------------
         // GET: api/<User>
         [HttpGet("cuenta/forgotpassword")]
-        public ActionResult<UserForAuth> Get([FromServices] IUsersLogic userLogic)
+        public ActionResult<UserForAuth> Get([FromServices] IUserLogic userLogic)
         {
-
-            if (Program.RetrieveSession().RetrieveSession().SessionType != Tienda.Dto.UserTypes.Guest)
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if (Program.RetrieveSession().RetrieveSession().UserType == 1)
             {
 
                 try
@@ -180,16 +184,17 @@ namespace TiendaWeb.Controllers
             }
             else
             {
-                return BadRequest("Iniciá sesión y ahí vemos\n" + userLogic.RetrieveSession().SessionType);
+                return BadRequest("Iniciá sesión y ahí vemos\n" + userLogic.RetrieveSession().UserType);
 
             }
         }
 
         // GET api/<Product>/5
         [HttpGet("configuracion")]
-        public ActionResult ChangePassword([FromQuery] string oldPassword, string newPassword, [FromServices] IUsersLogic userLogic)
+        public ActionResult ChangePassword([FromQuery] string oldPassword, string newPassword, [FromServices] IUserLogic userLogic)
         {
-            if (Program.RetrieveSession().RetrieveSession().SessionType != Tienda.Dto.UserTypes.Guest)
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if (Program.RetrieveSession().RetrieveSession().UserType == 1)
             {
 
                 try
@@ -216,7 +221,7 @@ namespace TiendaWeb.Controllers
             }
             else
             {
-                return BadRequest("Iniciá sesión y ahí vemos\n" + userLogic.RetrieveSession().SessionType);
+                return BadRequest("Iniciá sesión y ahí vemos\n" + userLogic.RetrieveSession().UserType);
 
             }
         }
@@ -225,7 +230,8 @@ namespace TiendaWeb.Controllers
         [HttpDelete("signout")]
         public ActionResult SignOut()
         {
-                if ( Program.RetrieveSession().RetrieveSession().SessionType != Tienda.Dto.UserTypes.Guest)
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if ( Program.RetrieveSession().RetrieveSession().UserType == 1)
                 {
                     Program.NewSession(new Tienda.Logic.UserLogic());
                     return Ok("Nos vemossss");

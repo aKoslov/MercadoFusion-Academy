@@ -1,0 +1,42 @@
+<div class="row position-relative me-4">
+    <div class="col me-2 text-center" style="max-width: 20%; height: 50%;">
+        <div class="card-header orange-grad">
+            <strong class="sm">Gestión</strong>
+        </div>
+        <div class="col card card-body align-items-center">
+            <button class="mb-3 text-dark text-decoration-none btn btn-outline-primary" (click)="setDisplay(1)">Productos</button>
+            <button class="mb-3 text-dark text-decoration-none btn btn-outline-primary" (click)="setDisplay(2)">Categorías</button>
+            <button class="mb-3 text-dark text-decoration-none btn btn-outline-primary" (click)="setDisplay(3)">Órdenes</button>
+            <button class="mb-3 text-dark text-decoration-none btn btn-outline-primary" (click)="setDisplay(4)">Usuarios</button>
+            <!-- <button class="text-dark btn btn-outline-primary" (click)="setDisplay(5)">Cuenta</button> -->
+        </div>
+    </div>
+    <div class="col" width="90%">
+        <ng-container [ngSwitch]="display">
+            <div class="card-header orange-grad shadow-sm" [ngSwitch]="display">
+                <strong class="sm" *ngSwitchCase="'SProducts'">Productos</strong>
+                <strong class="sm" *ngSwitchCase="'SCategories'">Categorías</strong>
+                <strong class="sm" *ngSwitchCase="'SOrders'">Órdenes</strong>
+                <strong class="sm" *ngSwitchCase="'SUsersList'">Clientes</strong>
+                <button type="button" class="hover-btn btn-close" aria-label="close"><i class="fas fa-trash"></i></button>
+                <!-- <strong class="sm" *ngSwitchCase="'UserInfo'">Cuenta</strong> -->
+            </div>
+            <ng-container *ngSwitchCase="'SProducts'">
+                <app-product-management class="card mb-4"></app-product-management>   
+            </ng-container>
+            <ng-container *ngSwitchCase="'SCategories'">
+                <app-categories-management class="card mb-4"></app-categories-management>   
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'SOrders'">
+                <app-order-list class="card mb-4" [userType]="userType"></app-order-list>   
+            </ng-container>
+            <ng-container *ngSwitchCase="'SUsersList'">
+                    <app-customers-management></app-customers-management>
+            </ng-container>
+            <!-- <ng-container *ngSwitchCase="'UserInfo'">
+                    <app-user-info [userId]="userInfo.userId"></app-user-info>
+            </ng-container> -->
+        </ng-container>
+    </div>
+</div>

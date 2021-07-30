@@ -1,21 +1,32 @@
 
-
-      <div class="products-catalog row products-list row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        
-        <div class="alert alert-warning box float-center" *ngIf="productsList.length === 0">
-            <p>¡No hay productos para mostrar!</p>
-          </div>
-        <div class="col active" *ngFor="let product of productsList">
-            <app-product-list-item [productItem]="product"></app-product-list-item>
-        </div>
-        <div class="container">
-          <div class="btn-toolbar" role="toolbar">
-            <div class="btn-group mx-auto container" role="group">
-                <button class="m-1 btn-warning btn-circle"><<</button>
-                <button class="m-1 btn-warning btn-circle">1</button>
-                <button class="m-1 btn-warning btn-circle">>></button>
+<div class="position-relative">
+    <div class="d-flex flex-row justify-content-center">
+      <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4 order-1">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <button id="button-addon2" type="submit" class="btn btn-link text-warning" (click)="search()"><i class="fa fa-search"></i></button>
             </div>
+            <input type="search" placeholder="¿Qué querés comprar hoy?"
+                   aria-describedby="button-addon2" class="form-control border-0 bg-light"
+                   (keyup)="handleEnter($event)" name="searchbar" id="searchbar">
+          </div>
+      </div>
+    </div>
+    <div class="products-catalog row products-list row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <div class="alert alert-warning box float-center" *ngIf="productsList.length === 0">
+          <p>¡No hay productos para mostrar!</p>
+      </div>
+      <div class="col active" *ngFor="let product of productsList">
+          <app-product-list-item [productItem]="product"></app-product-list-item>
+      </div>
+      <div class="container" *ngIf="listPages.length > 1">
+        <div class="btn-toolbar" role="toolbar">
+          <div class="btn-group mx-auto container" role="group">
+              <button class="m-1 btn-warning btn-circle" (click)="index('--')"><<</button>
+              <ng-container *ngFor="let page of listPages;"><button class="m-1 btn-warning btn-circle" (click)="index(page.toString())">{{ page }}</button></ng-container>
+              <button class="m-1 btn-warning btn-circle" (click)="index('++')">>></button>
           </div>
         </div>
-
-        </div>
+      </div>
+    </div>  
+</div>

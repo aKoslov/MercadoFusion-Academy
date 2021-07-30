@@ -1,17 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-.cart-item {
- font-size: medium;   
-}
-
-.cart {
-    float: center;
-}
-
-.filters {
-    font-size: small;
-    border-radius: 0;
-    float: left;
-}
 
 .product-btn {
     font-size: small;
@@ -22,30 +9,18 @@
     border-color: orange;
     background-color: orange;   
 }
-
-.products-list {
-    
-    
-
-}
-
-.product-item {
-    height: 400px;
-}
-
-.fa-heart {
-    color: palevioletred;
-    cursor: pointer;
-}
-
-.filtersTitle {
-    font-size: 20px;
-    font-weight: bold;
+.card-header {
+    text-align: center;
     color: rgb(231, 231, 231);
 }
 
-.filtersLabels {
-    font-size: 16px;
+.card-header .sm {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.pointer:hover {
+    cursor: pointer;
 }
 
 .stopper
@@ -57,17 +32,6 @@
 	background-image: linear-gradient(to right, transparent, rgb(48,49,51), transparent); 
 }
 
-
-.filtersLabels::after {
-    /* position: absolute;
-    content: "";
-    width: 100%;
-    height: 3px;
-    top: 100%;
-    left: 0;
-    background: #ff7000; */
-}
-
 .categoriesUL {
     display: flex;
     flex-direction: column;
@@ -75,11 +39,7 @@
     list-style-type: none;
 }
 
-.categoriesList { 
-    /* padding: 6px 0; */
-}
-
-.categoriesP {
+.orangeUnderline {
     position: relative;
     display: block;
     text-decoration: none;
@@ -87,7 +47,7 @@
     cursor: pointer;
 }
 
-.categoriesP::after {
+.orangeUnderline::after {
     position: absolute;
     content: "";
     width: 100%;
@@ -100,27 +60,9 @@
     transform-origin: right;
 }
 
-.categoriesP:hover::after {
+.orangeUnderline:hover::after {
     transform: scaleX(1);
     transform-origin: left;
-}
-
-.signup-btn {
-    border-color: rgb(51, 196, 51);
-}
-
-.signup-btn:hover {
-    border-color: rgb(51, 196, 51);
-    background-color: rgb(51, 196, 51);   
-}
-
-.login-btn {
-    border-color: orange;
-}
-
-.login-btn:hover {
-    border-color: orange;
-    background-color: orange;   
 }
 
 .forms {
@@ -148,6 +90,16 @@
     position: relative;
 }
 
+.btn-circle {   
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px -6px 0;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+}
+
 .btn-close {
     border-radius: 99px;
     width: 8px;
@@ -160,14 +112,10 @@
     top: 30%;
 }
 
-.btn-circle {   
-    width: 30px;
-    height: 30px;
-    padding: 6px 0px -6px 0;
-    border-radius: 15px;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 800;
+.btn-delete {
+    position: absolute;
+    float: right;
+    top: 10%;
 }
 
 .hover-btn {
@@ -195,19 +143,19 @@
 }
 
 .orange-grad {
-    background: #ff9900;
-    background: -webkit-linear-gradient(left top,#ff9900,#00d8ff);
-    background: -o-linear-gradient(bottom right,#ff9900,#00d8ff);
-    background: -moz-linear-gradient(bottom right,#ff9900,#00d8ff);
-    background: linear-gradient(to bottom right,#ff9900,#00d8ff);
+    background: #ffac31;
+    background: -webkit-linear-gradient(left top,#ffac31,#e22222);
+    background: -o-linear-gradient(bottom right,#ffac31,#e22222);
+    background: -moz-linear-gradient(bottom right,#ffac31,#e22222);
+    background: linear-gradient(to bottom right,#ffac31,#e22222);
 }
 
 .red-grad {
     background: #ff0095;
-    background: -webkit-linear-gradient(left top,#ff0095,#00d8ff);
-    background: -o-linear-gradient(bottom right,#ff0095,#00d8ff);
-    background: -moz-linear-gradient(bottom right,#ff0095,#00d8ff);
-    background: linear-gradient(to bottom right,#ff0095,#00d8ff);
+    background: -webkit-linear-gradient(left top,#9900ff,#0059ff);
+    background: -o-linear-gradient(bottom right,#9900ff,#0059ff);
+    background: -moz-linear-gradient(bottom right,#9900ff,#0059ff);
+    background: linear-gradient(to bottom right,#9900ff,#0059ff);
 }
 
 .form-control-range {

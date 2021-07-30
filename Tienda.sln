@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tienda.WebAPI", "2 - Web AP
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Tienda.Database", "Tienda.Database\Tienda.Database.sqlproj", "{4D386F07-2A1C-4CB7-8536-97EC16009D40}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tienda.Dapper", "4 - DataAccess\Tienda.Dapper\Tienda.Dapper.csproj", "{508D1892-981F-4780-B956-13B6C494F16D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tienda.DapperDA", "4 - DataAccess\Tienda.Dapper\Tienda.DapperDA.csproj", "{508D1892-981F-4780-B956-13B6C494F16D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Web App", "1 - Web App", "{87ED6A49-CC2E-4628-A288-FFF3CD9BE4C1}"
 EndProject

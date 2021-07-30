@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Tienda.Dapper;
+using Tienda.DapperDA;
 using Tienda.Dto;
 using Tienda.Interfaces;
 
@@ -19,39 +19,31 @@ namespace Tienda.Logic
             this.dataAccess = new DapperDataAccess(connString);
         }
         
-        public Product CreateProduct(Product product)
+        public long CreateProduct(ProductForInsert product)
         {
             return this.dataAccess.CreateProduct(product);
         }
         
-        public List<Product> GetProductsPaginated(int index, int fetch)
+        public ProductList GetProductsPaginated(int index, int fetch, string order)
         {
-            return this.dataAccess.GetProductsPaginated(index, fetch);
+            return this.dataAccess.GetProductsPaginated(index, fetch, order);
         }
-        public List<Product> GetProductsFiltered(string[] filters, int index, int fetch)
+        public ProductList GetProductsFiltered(ProductFilters filters, int index, int fetch)
         {
-            string filtersPost = "";
-            if (!filters[0].Equals(""))
-            {
-                filtersPost = $"CategoryId = { filters[0] }";
-            }
-            if (!filters[1].Equals(""))
-            {
-                if (filtersPost == "")
-                    filtersPost = $"Price > { filters[1] }";
-                else
-                    filtersPost += $" AND Price > { filters[1] }";
-            }
-            if (!filters[2].Equals(""))
-            {
-                if (filtersPost == "")
-                    filtersPost = $"StatusID = { filters[2] }";
-                else
-                    filtersPost += $" AND StatusId = { filters[2] }";
-            }
-                return this.dataAccess.GetProductsFiltered(filtersPost, index, fetch);
+            var filtersDynamic = new Dapper.DynamicParameters();
+            if (filters.Category != 0 )
+                filtersDynamic.Add("category", filters.Category);
+            else 
+                filtersDynamic.Add("category", "%");
+            filtersDynamic.Add("pricemin", filters.PriceMin);
+            filtersDynamic.Add("pricemax", filters.PriceMax);
+            if (filters.Status != -1)
+                filtersDynamic.Add("status", filters.Status);
+            else
+                filtersDynamic.Add("status", "%");
+            return this.dataAccess.GetProductsFiltered(filtersDynamic, index, fetch);
         }
-        public Product DeleteProduct(int id)
+        public int DeleteProduct(int id)
         {
             return dataAccess.DeleteProduct(id);
         }
@@ -68,7 +60,7 @@ namespace Tienda.Logic
             return dataAccess.GetProductByID(id);
         }
 
-        public List<Product> GetProductByName(string name)
+        public ProductList GetProductByName(string name)
         { 
             return dataAccess.GetProductByName(name);
         }

@@ -15,7 +15,7 @@ export class CategoryService {
     
     constructor(private http: HttpClient) { }
   
-    getProducts(): Observable<ProductCategory[]> {
+    getCategories(): Observable<ProductCategory[]> {
       return this.http.get<ProductCategory[]>(productcategoryUrl + "lista");
     }
 }

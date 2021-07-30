@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MessengerService } from 'src/app/services/messenger.service';
 import { Product } from 'src/app/models/product';
 import { CartItem } from 'src/app/models/cart-item';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -10,48 +11,42 @@ import { CartItem } from 'src/app/models/cart-item';
 })
 export class CartComponent implements OnInit {
 
-  cartItems: CartItem[] = [] 
+  @Output() orderEvent: EventEmitter<CartItem[]> = new EventEmitter<CartItem[]>()
 
+  cartItems: CartItem[] = [] 
   cartTotal = 0
 
-  constructor(private msgService: MessengerService) { }
+  constructor(private msgService: MessengerService,
+              private cartService: CartService) { }
 
   ngOnInit(): void {
-
-      this.msgService.getMessage().subscribe((product: Product) => 
-          this.addProductToCart(product)
+      this.msgService.getMessage().subscribe((cartItem: CartItem) => 
+          this.addToCart(cartItem) 
         )
+      this.cartItems = this.cartService.getCart('')
+      this.calculateTotal()
      }
 
-  addProductToCart(product: Product) {
-
-      let productExists = false
-
-      for(let index in this.cartItems) {
-        if (this.cartItems[index].productid === product.productID) {
-        this.cartItems[index].quantity++
-        productExists = true
-        break;
-        }
-      }
-
-      if (!productExists) {
-        this.cartItems.push({
-          productid: product.productID,
-          name: product.name,
-          description: product.description,
-          price: product.price,
-          quantity: 1
-        })
-      }
-        this.cartTotal = 0
-        this.cartItems.forEach( item => {
-              this.cartTotal += item.price * item.quantity
-        })
+  addToCart(itemToAdd: CartItem) {
+        this.cartItems = this.cartService.addToCart('', itemToAdd)
+        this.calculateTotal()
     }
 
-    removeFromCart(item: CartItem) {
-      this.cartItems.splice(this.cartItems.indexOf(item), 1)
+    deleteCart() {
+      this.cartItems = this.cartService.deleteCart('')
     }
+
+    removeFromCart(itemToRemove: CartItem) {
+      this.cartItems = this.cartService.substractFromCart(itemToRemove)
+      this.calculateTotal()
+    }
+
+    calculateTotal() {
+      this.cartTotal = 0
+      this.cartItems.forEach( item => {
+            this.cartTotal += item.unitPrice * item.quantity
+      })
+    }
+
   }
   

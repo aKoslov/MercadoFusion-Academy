@@ -1,0 +1,44 @@
+<div class="container px-2">
+    <div class="mb-2 d-flex justify-content-between align-items-center" width="250px">
+        <div class="position-relative">
+            <span class="position-absolute search">
+                <i class="fa fa-search"></i></span>
+            <input class="form-control" max-width="250px" placeholder="Nombre de cliente"> 
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-responsive">
+            <thead>
+                <tr class="bg-light">
+                    <ng-container>
+                        <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
+                        <th scope="col" width="5%">#</th>
+                        <th scope="col" width="20%"><img class="me-1" src="https://i.imgur.com/VKOeFyS.png" width="25">Cliente</th>
+                    </ng-container>
+                    <th scope="col" width="20%">Código de Recibo</th>
+                    <th scope="col" width="15%">Fecha</th>
+                    <th scope="col" width="15%">Estado</th>
+                    <th scope="col" width="20%" class="text-end">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let order of OrderList">
+                    <ng-container>
+                        <th scope="row"><input class="form-check-input" type="checkbox"></th>
+                        <td>12</td>
+                        <td>1 Oct, 21</td>
+                    </ng-container>
+                    <td>{{ order.details.billingNumber }}</td>
+                    <td>{{ order.details.createdDate | date:'short' }}</td>
+                    <td [ngSwitch]="validateStatus(order.details.statusId)">
+                        <i class="fa fa-check-circle-o green" *ngSwitchCase="'Paga'"></i>
+                        <i class="fa fa-dot-circle-o text-warning" *ngSwitchCase="'Pago Pendiente'"></i>
+                        <i class="fa fa-dot-circle-o text-danger" *ngSwitchCase="'Cancelada'"></i>
+                        <span class="ms-1">{{ validateStatus(order.details.statusId) }}</span>
+                    </td>
+                    <td class="text-end">${{ calculateTotal(order) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

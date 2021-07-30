@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using Tienda.Dto;
 using Tienda.Interfaces;
-using TiendaWeb.Models;
+using Tienda.WebAPI.Models;
 
 
 
@@ -20,57 +22,52 @@ namespace TiendaWeb.Controllers
         // ---------------------------------------- GET Product Paginated ----------------------------------------
         // GET: api/<Product>
         [HttpGet("catalogo")]
-        public ActionResult<IEnumerable<ProductForList>> GetPaginated([FromQuery] int index, int fetch, [FromServices] IProductLogic productLogic)
+        public ActionResult<ProductListResponse> GetPaginated([FromQuery] int index, int fetch, string order, [FromServices] IProductLogic productLogic)
         {
-            var products = productLogic.GetProductsPaginated(index, fetch);
-            return Ok(products);
+            var productsList = productLogic.GetProductsPaginated(index, fetch, order);
+            return Ok(productsList);
         }
 
         // ---------------------------------------- GET Product Filtered ----------------------------------------
         // GET: api/<Product>
         [HttpGet("catalogo/filtros")]
-        public ActionResult<IEnumerable<ProductForList>> Get([FromQuery] ProductFilter filters, int index, int fetch, [FromServices] IProductLogic productLogic)
+        public ActionResult<ProductListResponse> Get([FromQuery] ProductFilter filters, int index, int fetch, [FromServices] IProductLogic productLogic)
         {
-            var products = new List<Tienda.Dto.Product>();
-            string[] filtering = { filters.Category.ToString(), filters.Price.ToString(), filters.Status.ToString() };
-            if (filtering[0] == "" &&
-                filtering[1] == "" &&
-                filtering[2] == "")
-            {
-                products = productLogic.GetProductsPaginated(index, fetch);
-                
-            }
-            else
-            {
-                products = productLogic.GetProductsFiltered(filtering, index, fetch);
-            }
-            if (products.Count < 1)
-                return BadRequest();
+            var products = new ProductList();
+            ProductFilters filtering = new ProductFilters() { Category = (int)filters.Category, PriceMin = (int)filters.PriceMin, PriceMax = (int)filters.PriceMax, Status = (int)filters.Status };
+            products = productLogic.GetProductsFiltered(filtering, index, fetch);
+            if (products == null)
+                return NoContent();
             return Ok(products);
         }
 
         // ---------------------------------------- GET Product By ID ----------------------------------------
-        // GET api/<Product>/5
-        [HttpGet("buscarautom")]
+        // GET api/<Product>
+        [HttpGet("buscar/id")]
         public ActionResult<ProductForList> Get([FromQuery] int id, [FromServices] IProductLogic productLogic)
         {
             var product = productLogic.GetProductByID(id);
             if (product == null)
                 return NotFound();
+            var productByID = new ProductForList(     (int)product.Id, 
+                                                             product.Name, 
+                                                             product.Description, 
+                                                    (decimal)product.Price, 
+                                                             product.CategoryID, 
+                                                             product.StatusID);
 
-            return Ok(new ProductForList((int)product.ProductID, product.Name, product.Description, (decimal)product.Price, product.CategoryID, product.StatusID));
+            return Ok(productByID);
 
         }
 
         // ---------------------------------------- GET Product By Name ----------------------------------------
         // GET api/<Product>/5
-        [HttpGet("buscar")]
-        public ActionResult<IEnumerable<ProductForList>> Get([FromQuery] string name, [FromServices] IProductLogic productLogic)
+        [HttpGet("buscar/name")]
+        public ActionResult<ProductListResponse> Get([FromQuery] string name, [FromServices] IProductLogic productLogic)
         {
             var products = productLogic.GetProductByName(name);
             if (products == null)
                     return NotFound();
-
             return Ok(products);
 
 
@@ -78,30 +75,30 @@ namespace TiendaWeb.Controllers
 
         // ---------------------------------------- POST New Product ----------------------------------------
         // POST api/<Product>
-        [HttpPost("alta")]
-        public ActionResult<int> Post([FromBody] ProductBase product, [FromServices] IProductLogic productLogic)
+        [HttpPost("staff/alta")]
+        public ActionResult<long> Post([FromBody] ProductToSend product, [FromServices] IProductLogic productLogic)
         {
-            
-            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Staff) {
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if (Program.RetrieveSession().RetrieveSession().UserType == 1) {
 
                 if (!ModelState.IsValid)
                 {
                     return BadRequest();
                 }
 
-                var newProduct = productLogic.CreateProduct(new Tienda.Dto.Product
+                var newProductId = productLogic.CreateProduct(new Tienda.Dto.ProductForInsert
                 {
                     Name = product.Name,
                     Description = product.Description,
-                    Price = product.Price.Value,
+                    Price = product.Price,
                     CategoryID = product.CategoryID,
                     StatusID = product.StatusID
                 });
-                return Ok("Producto añadido");
+                return Ok(newProductId);
             }
             else
             {
-                if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Customer)
+                if (Program.RetrieveSession().RetrieveSession().UserType == 1)
                     return BadRequest("No tenés permiso para esto");
                 else
                     return BadRequest("Iniciá sesión y ahí vemos");
@@ -111,11 +108,11 @@ namespace TiendaWeb.Controllers
 
         // ---------------------------------------- PUT Update Product ----------------------------------------
         // PUT api/<Product>/5
-        [HttpPut("modificar")]
+        [HttpPut("staff/modificar")]
         public ActionResult Put([FromBody] ProductBase product, [FromQuery] int id, [FromServices] IProductLogic productLogic)
         {
-
-            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Staff)
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if (Program.RetrieveSession().RetrieveSession().UserType == 1)
             {
 
                 try
@@ -137,7 +134,7 @@ namespace TiendaWeb.Controllers
             }
             else
             {
-                if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Customer)
+                if (Program.RetrieveSession().RetrieveSession().UserType == 1)
                     return BadRequest("No tenés permiso para esto");
                 else
                     return BadRequest("Iniciá sesión y ahí vemos");
@@ -147,30 +144,29 @@ namespace TiendaWeb.Controllers
 
         // ---------------------------------------- DELETE Delete Product ----------------------------------------
         // DELETE api/<Product>/5
-        [HttpDelete("eliminar")]
+        [HttpDelete("staff/eliminar")]
         public ActionResult Delete(int id, [FromServices] IProductLogic productLogic)
         {
-
-            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Staff)
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if (Program.RetrieveSession().RetrieveSession().UserType == 1)
             {
 
                 try
                 {
-                    var borrado = productLogic.DeleteProduct(id);
-                    //if (borrado != null)
+                    if (productLogic.DeleteProduct(id) == 1)
                         return Ok("Producto Eliminado");
-                    //else
-                        //return NotFound("No se pudo eliminar: No se encontró");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
+                    else
+                        return NotFound();
+                }
+                catch (Exception e)
+                {
+                    return BadRequest(e);
                 }
             }
 
             else
             {
-                if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Customer)
+                if (Program.RetrieveSession().RetrieveSession().UserType == 1)
                     return BadRequest("No tenés permiso para esto");
                 else
                     return BadRequest("Iniciá sesión y ahí vemos");

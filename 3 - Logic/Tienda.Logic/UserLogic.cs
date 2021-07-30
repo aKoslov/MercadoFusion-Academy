@@ -4,13 +4,13 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Tienda.Dapper;
+using Tienda.DapperDA;
 using Tienda.Dto;
 using Tienda.Interfaces;
 
 namespace Tienda.Logic
 {
-    public class UserLogic : IUsersLogic
+    public class UserLogic : IUserLogic
     {
         public DapperDataAccess dataAccess { get; }
         public UserSession sessionUser { get; set; }
@@ -18,18 +18,18 @@ namespace Tienda.Logic
 
         public UserLogic()
         {
-            sessionUser = new UserSession() { SessionToken = new Guid().ToString(), SessionType = Tienda.Dto.UserTypes.Guest };
+            sessionUser = new UserSession() { UserId = 1, UserType = 1 };
             this.dataAccess = new DapperDataAccess();
         }
 
-        public UserLogic(UserSession sessionUser, string username)
+        public UserLogic(UserSession sessionUser, int userId)
         {
             this.dataAccess = new DapperDataAccess();
             this.sessionUser = sessionUser;
-            this.userData = this.DisplayUserInfo(username);
+            this.userData = this.DisplayUserInfo(userId);
 
         }
-        public string[] UserLogin(string username, string password)
+        public UserSession UserLogin(string username, string password)
         {
             //DataHashing hash = new DataHashing();
             //string[] credentials = new string[dataAccess.UserLogin(username, password)];
@@ -64,9 +64,9 @@ namespace Tienda.Logic
         {
             return this.sessionUser;
         }
-        public User DisplayUserInfo(string session)
+        public User DisplayUserInfo(int userId)
         {
-            return dataAccess.DisplayUserInfo(session);
+            return dataAccess.DisplayUserInfo(userId);
         }
 
         public string DontDoThisAtHome (string username)

@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace TiendaWeb.Models
+namespace Tienda.WebAPI.Models
 {
     public class CategoryBase
     {

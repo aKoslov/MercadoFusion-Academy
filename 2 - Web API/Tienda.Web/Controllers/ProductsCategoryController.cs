@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Tienda.Interfaces;
-using TiendaWeb.Models;
+using Tienda.WebAPI.Models;
 
 namespace TiendaWeb.Controllers
 {
@@ -34,8 +34,8 @@ namespace TiendaWeb.Controllers
         public ActionResult<int> Post([FromQuery] string categoryDescription, [FromServices] IProductsCategoryLogic categoryLogic)
         {
 
-
-            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Staff)
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if (Program.RetrieveSession().RetrieveSession().UserType == 1)
             {
 
                 try
@@ -53,12 +53,12 @@ namespace TiendaWeb.Controllers
             }
             else
             {
-                if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)
+                if (Program.RetrieveSession().RetrieveSession().UserType == 1)
                 {
-                    return BadRequest("Iniciá sesión y ahí vemos\n" + Program.RetrieveSession().RetrieveSession().SessionType);
+                    return BadRequest("Iniciá sesión y ahí vemos\n" + Program.RetrieveSession().RetrieveSession().UserType);
                 } else
                 {
-                    return BadRequest("No tenés permiso     " + Program.RetrieveSession().RetrieveSession().SessionType);
+                    return BadRequest("No tenés permiso     " + Program.RetrieveSession().RetrieveSession().UserType);
                 }
             }
         }
@@ -69,8 +69,8 @@ namespace TiendaWeb.Controllers
         [HttpPut("actualizar")]
         public ActionResult Put([FromBody] CategoryBase category, [FromServices] IProductsCategoryLogic categoryLogic)
         {
-
-            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Staff)
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if (Program.RetrieveSession().RetrieveSession().UserType == 1)
             {
 
                 try
@@ -91,13 +91,13 @@ namespace TiendaWeb.Controllers
             }
             else
             {
-                if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)
+                if (Program.RetrieveSession().RetrieveSession().UserType == 1)
                 {
-                    return BadRequest("Iniciá sesión y ahí vemos\n" + Program.RetrieveSession().RetrieveSession().SessionType);
+                    return BadRequest("Iniciá sesión y ahí vemos\n" + Program.RetrieveSession().RetrieveSession().UserType);
                 }
                 else
                 {
-                    return BadRequest("No tenés permiso     " + Program.RetrieveSession().RetrieveSession().SessionType);
+                    return BadRequest("No tenés permiso     " + Program.RetrieveSession().RetrieveSession().UserType);
                 }
             }
         }
@@ -107,8 +107,8 @@ namespace TiendaWeb.Controllers
         [HttpDelete("eliminar")]
         public ActionResult Delete([FromQuery] int categoryID, [FromServices] IProductsCategoryLogic categoryLogic)
         {
-
-            if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Staff)
+            Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
+            if (Program.RetrieveSession().RetrieveSession().UserType == 1)
             {
 
                 try
@@ -124,13 +124,13 @@ namespace TiendaWeb.Controllers
             }
             else
             {
-                if (Program.RetrieveSession().RetrieveSession().SessionType == Tienda.Dto.UserTypes.Guest)
+                if (Program.RetrieveSession().RetrieveSession().UserType == 1)
                 {
-                    return BadRequest("Iniciá sesión y ahí vemos\n" + Program.RetrieveSession().RetrieveSession().SessionType);
+                    return BadRequest("Iniciá sesión y ahí vemos\n" + Program.RetrieveSession().RetrieveSession().UserType);
                 }
                 else
                 {
-                    return BadRequest("No tenés permiso     " + Program.RetrieveSession().RetrieveSession().SessionType);
+                    return BadRequest("No tenés permiso     " + Program.RetrieveSession().RetrieveSession().UserType);
                 }
             }
         }

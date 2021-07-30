@@ -1,0 +1,13 @@
+
+.signup-btn {
+    border-color: rgba(77, 219, 77, 0.678);
+    background-color: rgba(77, 219, 77, 0.678); 
+}
+
+.login-btn {
+    border-color: rgba(255, 179, 39, 0.829);
+}
+
+.login-btn:hover {
+    background-color: rgba(255, 179, 39, 0.829);   
+}

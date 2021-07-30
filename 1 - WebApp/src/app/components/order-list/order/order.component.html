@@ -1,0 +1,21 @@
+<div class="container position-relative">
+    <h1 class="blue-grad text-center shadow-sm card-header"><i class="fas fa-receipt mx-2"></i>Detalles de Pedido</h1>
+    <div class="d-flex flex-column">
+        <div class="float-start card shadow-sm me-5 start-0" style="width: 40%;">
+            <div class="card-body text-center lh-2">
+                <p><strong>Recibo:</strong>
+                <p>{{ order.details.billingNumber }}</p>
+                <p><strong>Fecha de Pedido:</strong></p>
+                <p>{{ order.details.createdDate }}</p>
+                <p><strong>Estado:</strong></p>
+                <p>{{ orderStatus.description[order.details.statusId] }}</p>
+            </div>
+        </div>
+        <div class="float-end card shadow-sm ms-5" style="width: 55%;">
+                <h2 class="checkoutHeader m-2 start-50"><i class="fas fa-shopping-cart mx-2 text-center"></i>Tu Carro</h2>
+                <div *ngFor="let item of orderItems">
+                    <app-order-item [orderItem]="item"></app-order-item>
+                </div>
+        </div>
+    </div>
+</div>

@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tienda.Dapper;
+using Tienda.DapperDA;
 using Tienda.Interfaces;
 using Tienda.Logic;
 
@@ -53,11 +53,13 @@ namespace TiendaWeb
             });
           
             services.AddScoped<IProductLogic, ProductLogic>();
-            services.AddScoped<IUsersLogic, UserLogic>();
+            services.AddScoped<IUserLogic, UserLogic>();
+            //services.AddScoped<IUserLogic>(s => new DapperDataAccess("Default"));
             //services.AddScoped<IUsersLogic>(s => new DataHashing());
             services.AddScoped<IProductsCategoryLogic, ProductsCategoryLogic>();
-
-            //services.AddScoped<IProductLogic>(s => new DapperDataAccess("Default"));
+            //services.AddScoped<IProductsCategoryLogic>(s => new DapperDataAccess("Default"));
+            services.AddScoped<IOrderLogic, OrderLogic>();
+            //services.AddScoped<IOrderLogic>(s => new DapperDataAccess("Default"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

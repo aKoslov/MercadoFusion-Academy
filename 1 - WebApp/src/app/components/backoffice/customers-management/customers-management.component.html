@@ -1,0 +1,41 @@
+<div class="container px-2 ">
+    <div class="mb-2 d-flex justify-content-between align-items-center" width="250px">
+        <div class="position-relative">
+            <span class="position-absolute search">
+                <i class="fa fa-search"></i></span>
+            <input class="form-control" max-width="250px" placeholder="Nombre de cliente"> </div>
+        <!-- <div class="px-2"> <span>Filters <i class="fa fa-angle-down"></i></span> <i class="fa fa-ellipsis-h ms-3"></i> </div> -->
+    </div>
+    <div class="table-responsive">
+        <table class="table table-responsive table-borderless">
+            <thead>
+                <tr class="bg-light">
+                    <th scope="col" width="3%">ID</th>
+                    <th scope="col" width="2%">Nombre</th>
+                    <th scope="col" width="20%">Apellido</th>
+                    <th scope="col" width="fit-content">Documento</th>
+                    <th scope="col" class="text-no-wrap no-wrap" width="fit-content">Fecha Inscripción</th>
+                    <th scope="col" width="fit-content">Username</th>
+                    <th scope="col" width="fit-content">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                 <tr *ngFor="let customer of customerList">
+                    <td>{{ customer.userId }}</td>
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.lastName }}</td>
+                    <td>{{ customer.dni }}</td>
+                    <td>{{ customer.creationDate | date:'short' }}</td>
+                    <td>{{ customer.username }}</td>
+                    <td>{{ customer.statusId }}</td>
+                    <!-- <td [ngSwitch]="customer.statusID">
+                        <i class="fa fa-check-circle-o green" *ngSwitchCase="'Paga'"></i>
+                        <i class="fa fa-dot-circle-o text-warning" *ngSwitchCase="'Pago Pendiente'"></i>
+                        <i class="fa fa-dot-circle-o text-danger" *ngSwitchCase="'Cancelada'"></i>
+                        <span class="ms-1">{{ customer.statusID }}</span>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

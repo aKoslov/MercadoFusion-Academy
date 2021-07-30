@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-4 offset-md-4">
         <div class="login-card card">
-            <div class="card-header text-center">
+            <div class="card-header red-grad text-center">
                 <h3 style="margin-top: 3px;">Crea una cuenta</h3>
             </div>
             <div class="card-body">
@@ -68,11 +68,12 @@
                             <span *ngIf="signupForm.get('confirmpassword')?.hasError('passwordsmatch')">Las contraseñas no coinciden</span>
                         </span>
                     </div>
-                    <button class="btn form-submit-btn btn-primary btn-block" [disabled]="signupForm.invalid" style="margin: 0 auto; display: block;">Enviar</button>
+                    <div class="recaptcha justify-content-middle my-2">
+                        <div class="g-recaptcha" data-sitekey="#"></div>
+                        <span class="field-validation-valid" data-valmsg-for="Captcha" data-valmsg-replace="true"></span>
+                    </div>
+                    <button class="btn form-submit-btn btn-primary btn-block" [disabled]="signupForm.invalid" style="margin: 0 auto; display: block;">Registrate</button>
                 </form>
-                <!-- <div class="card-body">
-                    <span class="text-center">Gracias por registrarte :)<br>Te redirigimos a la página de Inicio</span>
-                </div> -->
             </div>
         </div>
     </div>

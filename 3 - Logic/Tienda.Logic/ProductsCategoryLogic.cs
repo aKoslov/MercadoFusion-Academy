@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tienda.Dapper;
+using Tienda.DapperDA;
 using Tienda.Dto;
 using Tienda.Interfaces;
 

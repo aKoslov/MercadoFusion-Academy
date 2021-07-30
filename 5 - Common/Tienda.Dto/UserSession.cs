@@ -3,9 +3,12 @@ namespace Tienda.Dto
 {
     public class UserSession
     {
-        public string SessionToken { get; set; }
+        public int UserId { get; set; }
+        public int UserType { get; set; }
 
-        public UserTypes SessionType { get; set; }
+        //public string SessionToken { get; set; }
+
+        //public UserTypes SessionType { get; set; }
 
     }
 }

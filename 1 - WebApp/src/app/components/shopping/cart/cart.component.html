@@ -1,15 +1,29 @@
 <div class="cart">
-
-    <div class="alert alert-info text-center" *ngIf="cartItems.length === 0">
+    <ng-container *ngIf="cartItems.length > 0">
+        <div class="card-header blue-grad pointer deleteable position-relative" [routerLink]="['/checkout']">
+            <strong class="sm text-center"><i class="fas fa-shopping-cart mx-2"></i>Carrito</strong>
+            <button type="button" class="btn btn-delete end-0 mb-3" aria-label="close" (click)="deleteCart()"><i class="fas fa-trash"></i></button>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="cartItems.length == 0">
+        <div class="card-header blue-grad">
+        <strong class="sm"><i class="fas fa-shopping-cart mx-2"></i>Carrito</strong>
+    </div>
+    </ng-container>
+    <div class="alert alert-info text-center" *ngIf="cartItems.length == 0">
         <p>No encontramos tu carro</p>
     </div>
-       <ul class="list-group" *ngIf="cartItems.length > 0">
-           <li class="list-group-item" *ngFor="let item of cartItems">
-               <app-cart-item [cartItem]="item"></app-cart-item>
-           </li>
-   
-           <li class="list-group-item active">
-               <strong>Subtotal: {{ cartTotal| currency: '$' }}</strong>
-           </li>
-       </ul>
+    <div class="mb-2" *ngIf="cartItems.length != 0">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of cartItems">
+                <app-cart-item [cartItem]="item"></app-cart-item>
+            </li>
+            <li class="list-group-item active">
+                <strong>Subtotal: {{ cartTotal| currency: '$' }}</strong>
+            </li>
+        </ul>
+    </div>
+    <div *ngIf="cartItems.length > 0" class="text-center">
+        <button type="submit" class="btn btn-primary btn-sm ms-2" [routerLink]="['/checkout']">Enviar Pedido</button>
+    </div>
 </div>

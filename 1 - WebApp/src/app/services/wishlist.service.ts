@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ProductsListComponent } from '../components/shopping/products-list/products-list.component';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,6 @@ export class WishListService {
       if (wishlistArray.length > 1)
       {
         wishlistArray.splice(wishlistArray.indexOf(productID.toString()), 1)
-      }
         localStorage.setItem("wishlist", (wishlistArray.toString()))
       }
       else {
@@ -54,5 +54,6 @@ export class WishListService {
     }
   }
 
+}
 
 

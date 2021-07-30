@@ -1,9 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ElementSchemaRegistry } from '@angular/compiler';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CatalogFilters } from 'src/app/models/catalog-filters';
-import { Product } from 'src/app/models/product';
 import { ProductCategory } from 'src/app/models/product-category';
 import { CategoryService } from 'src/app/services/category.service';
-import { ProductService } from 'src/app/services/product.service';
+import { WishListService } from 'src/app/services/wishlist.service';
 import { ProductsListComponent } from '../products-list/products-list.component';
 
 @Component({
@@ -14,67 +14,65 @@ import { ProductsListComponent } from '../products-list/products-list.component'
 export class FiltersComponent implements OnInit {
 
   @Output() filtersEvent: EventEmitter<CatalogFilters> = new EventEmitter<CatalogFilters>()
+  @Input() listMaxPrice: number = 120000
+  @Input() listMinPrice: number = 0
 
-  maxPrice: number = 0
-  minPrice: number = -1
-  filters = {
-     Category: 0,
-     PriceMin: -1,
-     PriceMax: 0,
-     Status: 0
-   }
-  sendFilters: string = ""
   categoriesList: ProductCategory[] = []
+  catalogFilters: CatalogFilters = new CatalogFilters()
+  sendFilters: string = ""
   categoryFilter: boolean = false
+  appliedFilters: boolean = false
 
-  constructor(private categoryService: CategoryService) { }
+  constructor(private categoryService: CategoryService) { 
+  }
 
   ngOnInit(): void {
-
-    this.categoryService.getProducts().subscribe((categories: ProductCategory[]) => {
+    this.categoryService.getCategories().subscribe((categories: ProductCategory[]) => {
       this.categoriesList = categories
     });
-
   }
 
-  
+  setRangeValue(which: string) {
+    if (which == "min")
+      this.catalogFilters.PriceMin = Number((<HTMLInputElement>document.getElementById('MinRange')).value);
+    if (which == "max")
+      this.catalogFilters.PriceMax = Number((<HTMLInputElement>document.getElementById('MaxRange')).value);
+    (<HTMLInputElement>document.getElementById('MaxRange')).min = String(this.catalogFilters.PriceMin);
+    (<HTMLInputElement>document.getElementById('MinRange')).max = String(this.catalogFilters.PriceMax);
+  }
 
   loadFilters() {
-    this.sendFilters = ""
-    if (this.filters.Category != -1)
-    {
-    if (this.filters.Category === 0)
-     this.categoryFilter = false
-    this.sendFilters += "&Category=" + this.filters.Category
-    this.categoryFilter = true
-    }
-    if (this.filters.PriceMax != 0) 
-    this.sendFilters += "&priceMax=" + this.filters.PriceMax
-    if (this.filters.PriceMin != -1)
-    this.sendFilters += "&priceMin=" + this.filters.PriceMin
-    if (this.filters.Status != -1) 
-    this.sendFilters += "&status=" + this.filters.Status
-    if (this.sendFilters != "")
-    {
-      this.filtersEvent.emit(new CatalogFilters(this.filters.Category, this.filters.PriceMax, this.filters.PriceMin, this.filters.Status))
-    }
+      if (this.catalogFilters.PriceMax == -1)
+        this.catalogFilters.PriceMax = this.listMaxPrice
+      this.filtersEvent.emit(this.catalogFilters)
+      if (this.catalogFilters.Category > 0) 
+        this.categoryFilter = true
+      else
+        this.categoryFilter = false
+      this.appliedFilters = true
   }
+
+  resetFilterds() {
+    this.catalogFilters = new CatalogFilters()
+    
+  }
+
   filterCategory(category: number) {
-    this.filters.Category = category
+    this.catalogFilters.Category = category
   }
 
   filterStock() {
-    if (this.filters.Status == 0)
-    this.filters.Status = 1
+    if (this.catalogFilters.Status == -1)
+    this.catalogFilters.Status = 1
     else
-    this.filters.Status = 0
+    this.catalogFilters.Status = -1
   }
 
-  filterPrice(price: number, MinOrMax: string) {
-    if (MinOrMax == "min") 
-    this.filters.PriceMin = price
-    else
-    this.filters.PriceMax = price
-  }
 
+  hasWishlist() {
+    if (localStorage.getItem('wishlist') != null)
+    return true
+    else
+    return false
+  }
 }

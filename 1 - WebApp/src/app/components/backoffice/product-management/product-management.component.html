@@ -1,0 +1,112 @@
+<div class="container px-2 ">
+    <div class="d-flex flex-row justify-content-center">
+        <div class="mb-2 w-100 d-flex flex-column justify-content-between" width="250px">
+            <div class="position-relative">
+                <span class="position-absolute search">
+                    <i class="fa fa-search"></i></span>
+                <input class="form-control" max-width="250px" placeholder="Nombre de producto"> </div>
+        </div>
+        <div class="flex-column my-auto flex-shrink-1">
+            <div class="d-inline-flex ms-2">
+                <button class="btn"><i class="fas fa-plus-square text-danger fs-5"
+                        aria-label="Agregar" data-toggle="modal" 
+                        data-target="#newProductModal" title="Agregar Producto"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-responsive">
+            <thead>
+                <tr class="bg-light">
+                    <th scope="col" width="3%">ID</th>
+                    <th scope="col" width="">Nombre</th>
+                    <th scope="col" width="20%">Descripción</th>
+                    <th scope="col" width="fit-content">Precio</th>
+                    <th scope="col" class="text-no-wrap no-wrap" width="fit-content">Fecha Añadido</th>
+                    <th scope="col" width="fit-content">Categoría</th>
+                    <th scope="col" width="fit-content">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                 <tr *ngFor="let item of productList">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>${{ item.price }}</td>
+                    <td>{{ item.createdDate | date:'short'}}</td>
+                    <td>{{ item.categoryID }}</td>
+                    <td [ngSwitch]="item.statusID">
+                        <i class="fa fa-check-circle-o green" *ngSwitchCase="'Paga'"></i>
+                        <i class="fa fa-dot-circle-o text-warning" *ngSwitchCase="'Pago Pendiente'"></i>
+                        <i class="fa fa-dot-circle-o text-danger" *ngSwitchCase="'Cancelada'"></i>
+                        <span class="ms-1">{{ item.statusID }}</span>
+                    </td>
+                    <button class="btn position-absolute" 
+                            style="margin-left: -35px;"
+                            (click)="deleteProduct(item.id)"><i class="fas fa-minus-square text-primary fs-5" aria-label="Agregar" title="Eliminar Producto"></i></button>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade mt-5" id="newProductModal">
+    <div class="modal-dialog modal-confirm">
+        <div class="card mod modal-content">
+                        <div class="card-header orange-grad text-center">
+                            <h3 style="margin-top: 3px;">Alta Producto</h3>
+                        </div>
+                        <div class="card-body">
+                                <form [formGroup]="productForm" (ngSubmit)="addProduct()">
+                                <div class="form-group shadow-sm mb-4"> 
+                                    <label for="name">Nombre</label>
+                                    <input id="name" class="form-control"
+                                    [ngClass]="{ 'is-invalid': productForm.get('name')?.touched && productForm.get('name')?.invalid }"
+                                    formControlName="name">
+                                    <span class="invalid-feedback">Campo requerido</span>
+                                </div>
+                                <div class="form-group shadow-sm mb-4">
+                                    <label for="description">Descripción</label>
+                                    <input type="text" id="description" class="form-control"
+                                    [ngClass]="{ 'is-invalid': productForm.get('description')?.touched && productForm.get('description')?.invalid }"
+                                    formControlName="description">
+                                    <span class="invalid-feedback">Campo requerido</span>
+                                </div>
+                                <div class="form-group shadow-sm mb-4">
+                                    <label for="price">Precio</label>
+                                    <input type="text" id="price" class="form-control"
+                                    [ngClass]="{ 'is-invalid': productForm.get('price')?.touched && productForm.get('price')?.invalid }"
+                                    formControlName="price">
+                                    <span class="invalid-feedback">
+                                        <span *ngIf="productForm.get('price')?.hasError('required')">Campo requerido</span>
+                                        <span *ngIf="productForm.get('price')?.hasError('pattern')">Precio en decimal, no hexadecimal</span>
+                                    </span>
+                                </div>
+                                <div class="form-group shadow-sm mb-4">
+                                    <label for="text">Categoría</label>
+                                    <select id="categoryID" class="form-control"
+                                    [ngClass]="{ 'is-invalid': productForm.get('categoryID')?.touched && productForm.get('categoryID')?.invalid }"
+                                    formControlName="categoryID">
+                                    <ng-container *ngFor="let category of categories">
+                                        <option [value]="category.categoryID">{{ category.description }}</option>
+                                    </ng-container>
+                                    </select>
+                                    <span class="invalid-feedback"
+                                          *ngIf="productForm.get('categoryID')?.hasError('required')">Campo requerido</span>
+                                </div>
+                                <div class="form-group shadow-sm mb-4 d-inline-flex flex-row">
+                                    <label for="statusId">Stock</label>
+                                    <input type="checkbox" id="statusId" class="form-control ms-4 form-check-input" height="30px"
+                                    [ngClass]="{ 'is-invalid': productForm.get('statusId')?.touched && productForm.get('statusId')?.invalid }"
+                                    formControlName="statusId">
+                                    <span class="invalid-feedback">
+                                        <span *ngIf="productForm.get('statusId')?.hasError('required')">Campo requerido</span>
+                                        <span *ngIf="productForm.get('statusId')?.hasError('minlength')">Probá llegar a los 6 caracteres</span>
+                                    </span>
+                                </div>
+                                <button class="btn form-submit-btn btn-primary btn-block" [disabled]="productForm.invalid" style="margin: 0 auto; display: block;" data-dismiss="modal" (click)="addProduct()">Enviar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>

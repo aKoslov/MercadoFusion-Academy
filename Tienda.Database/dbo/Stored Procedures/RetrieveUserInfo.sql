@@ -1,8 +1,8 @@
 ﻿
 CREATE   PROCEDURE [dbo].[RetrieveUserInfo]
-	@Username nvarchar(50)
+	@userId smallint
 AS 
 	BEGIN
 	SET NOCOUNT ON
-	SELECT UI.DocumentNumber, UI.Name, UI.Surname, UI.CreatedDate, UI.Username FROM Users UI WHERE UI.Username = @Username
+	SELECT UI.DocumentNumber DNI, UI.Name, UI.Surname LastName, UI.CreatedDate, UI.Username FROM Users UI WHERE UI.Id = @userId
 	END
