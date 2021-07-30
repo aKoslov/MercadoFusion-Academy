@@ -4,6 +4,7 @@ CREATE   PROCEDURE [dbo].[RetrieveProductByName]
 AS
 BEGIN
 	SET NOCOUNT ON
+	SET @Name = '%' + @Name + '%'
 		DECLARE @query nvarchar(max) = CONCAT('SELECT Id, Name, Description, Price, CreatedDate, CategoryId, StatusId FROM dbo.Products WHERE Name LIKE ''', @name,''' ORDER BY id ASC')
 		EXEC sp_executesql @query -- esto tengo que pulirlo más 
 								  -- para prevenir sql injections
