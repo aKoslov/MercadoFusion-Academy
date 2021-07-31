@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { UserTypes } from 'src/app/config/enums';
-
+import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user.service';
+import { WishListService } from 'src/app/services/wishlist.service';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -8,11 +8,26 @@ import { UserTypes } from 'src/app/config/enums';
 })
 export class NavComponent implements OnInit {
 
-  @Input() userType: UserTypes = UserTypes.Guest
-
-  constructor() { }
+  constructor(private userService: UserService,
+              private wishlistService: WishListService) { }
 
   ngOnInit(): void {
+    this.userService.validateStaff()
   }
+  
+  isLogged() {
+    return this.userService.isLogged()
+  }
+
+  validateStaff() {
+    return this.userService.validateStaff()
+  }
+
+  signOut()
+   {
+     localStorage.removeItem('wishlist')
+     return this.userService.signOut()
+
+   }
 
 }

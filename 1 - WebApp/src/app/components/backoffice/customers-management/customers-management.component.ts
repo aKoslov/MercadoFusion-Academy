@@ -16,6 +16,9 @@ export class CustomersManagementComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUsersList().subscribe((list: UserDto[]) => 
       this.customerList = list)
+    this.customerList.forEach(data => {
+        this.customerList
+    });
   }
 
 }

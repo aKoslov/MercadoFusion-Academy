@@ -14,7 +14,7 @@ export class BackofficeComponent implements OnInit {
   // usersDisplay: boolean = false
   // ordersDisplay: boolean = false
   // accountInfoDisplay : boolean = false
-  userInfo: UserDto = new UserDto
+  userInfo: UserDto = new UserDto(-1, 3)
   userType: UserTypes = UserTypes.Staff
   display: string = "SProducts"
 

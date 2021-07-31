@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserLogin } from 'src/app/models/user';
 import { MessengerService } from 'src/app/services/messenger.service';
 import { UserService } from 'src/app/services/user.service';
@@ -11,18 +12,32 @@ import { UserService } from 'src/app/services/user.service';
 export class LoginComponent implements OnInit {
 
   constructor(private msgService: MessengerService,
-              private loginService: UserService) { }
+              private loginService: UserService,
+              private formBuilder: FormBuilder) { }
 
-  model: any
-  username?: string
-  password?: string
-  remember: boolean = false
+  model: any = {}
+  loginForm: FormGroup = new FormGroup({})
+  submitSuccess?: boolean
 
   ngOnInit(): void {
+    this.buildForm()
   }
 
+  buildForm() {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', [Validators.required]],
+      remember: []
+    })
+  }
+
+
   login() {
-    this.loginService.userLogin(new UserLogin(this.model[0] || '', this.model[1] || ''))
+    let newLogin: UserLogin = new UserLogin(this.loginForm.get('username')?.value,
+                                            this.loginForm.get('password')?.value
+    )
+    this.loginService.userLogin(newLogin)
+    
   }
 
 }

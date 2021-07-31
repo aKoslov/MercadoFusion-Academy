@@ -29,14 +29,14 @@
             </ng-container>
 
             <ng-container *ngSwitchCase="'SOrders'">
-                <app-order-list class="card mb-4" [userType]="userType"></app-order-list>   
+                <app-order-list class="card mb-4"></app-order-list>   
             </ng-container>
             <ng-container *ngSwitchCase="'SUsersList'">
                     <app-customers-management></app-customers-management>
             </ng-container>
             <!-- <ng-container *ngSwitchCase="'UserInfo'">
-                    <app-user-info [userId]="userInfo.userId"></app-user-info>
-            </ng-container> -->
+                    <app-user-info></app-user-info>
+            </ng-container>  -->
         </ng-container>
     </div>
 </div>

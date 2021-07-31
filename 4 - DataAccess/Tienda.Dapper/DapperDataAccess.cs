@@ -230,7 +230,7 @@ namespace Tienda.DapperDA
                 var loginParams = new DynamicParameters();
                 loginParams.Add("username", username);
                 loginParams.Add("password", password);
-                var newSession = new UserSession();
+                var newSession = new UserSession() { UserId = -1, UserType = 3 };
                 var reader = connection.ExecuteReader("dbo.UserLogin", loginParams, commandType: CommandType.StoredProcedure);
                 while (reader.Read())
                 {

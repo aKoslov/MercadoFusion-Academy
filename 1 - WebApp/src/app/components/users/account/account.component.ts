@@ -3,6 +3,7 @@ import { UserTypes } from 'src/app/config/enums';
 import { OrdersListResponse } from 'src/app/models/order';
 import { MessengerService } from 'src/app/services/messenger.service';
 import { OrderService } from 'src/app/services/order.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-account',
@@ -11,28 +12,30 @@ import { OrderService } from 'src/app/services/order.service';
 })
 export class AccountComponent implements OnInit {
 
-  userId: number = 17
+  userId: number = -1
   ordersDisplay: boolean = true
-  accountInfoDisplay: boolean = true
-  userType: UserTypes = UserTypes.Customer
+  accountInfoDisplay: boolean = false
 
   constructor(private orderService: OrderService,
-              private msgService: MessengerService) { }
+              private msgService: MessengerService,
+              private userService: UserService) { }
 
   ngOnInit(): void {
-    this.orderService.getUsersOrders(this.userId).subscribe((orders: OrdersListResponse) => this.msgService.sendMessage(orders))
+
+    if (this.validateStaff())
+      this.userId = -1  
+    else
+      this.userId = this.userService.getUserId()
+    this.orderService.getUsersOrders(-1).subscribe((orders: OrdersListResponse) => this.msgService.sendMessage(orders))
   }
 
   validateStaff() {
-    if (this.userType == UserTypes.Staff) 
-    return true
-    else 
-    return false
+    return this.userService.validateStaff()
   }
 
   displayOrders() {
-    this.ordersDisplay = true
     this.accountInfoDisplay = false
+    this.ordersDisplay = true
   }
 
   displayUserInfo() {

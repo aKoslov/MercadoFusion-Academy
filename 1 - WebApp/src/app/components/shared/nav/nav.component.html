@@ -6,16 +6,21 @@
         </a>
   
         <nav class="d-inline-flex mb-0 mt-2 mt-md-0 ms-md-auto">
-          <ng-container >
-            <a class="text-dark text-decoration-none btn" [routerLink]="['/cuenta']"><img src="https://image.flaticon.com/icons/png/512/859/859322.png" width="40"></a>
-          </ng-container>
-            <ng-container >
-              <a class="text-dark text-decoration-none mx-2 btn" [routerLink]="['/gestion']"><img src="https://image.flaticon.com/icons/png/512/2230/2230606.png" width="40"></a>
+          <ng-container *ngIf="isLogged()">
+            <ng-container *ngIf="!validateStaff()">
+              <a class="text-dark text-decoration-none btn" [routerLink]="['/cuenta']"><img src="https://image.flaticon.com/icons/png/512/859/859322.png" width="40"></a>
             </ng-container>
-          <ng-container >
-            <a class="text-dark text-decoration-none btn p-0 mx-3 fit-content" [routerLink]="['/cuenta']"><img src="https://i.imgur.com/nmnmfGv.png" width="50"></a>
+              <ng-container *ngIf="validateStaff()">
+                <a class="text-dark text-decoration-none mx-2 btn" [routerLink]="['/gestion']"><img src="https://image.flaticon.com/icons/png/512/2230/2230606.png" width="40"></a>
+              </ng-container>
+            <ng-container >
+              <a class="text-dark text-decoration-none btn p-0 mx-3 fit-content" [routerLink]="['/cuenta']"><img src="https://i.imgur.com/nmnmfGv.png" width="50"></a>
+            </ng-container>
+            <ng-container >
+              <button class="text-dark text-decoration-none btn p-0 mx-3 fit-content" (click)="signOut()"><img src="https://image.flaticon.com/icons/png/512/2237/2237471.png" width="50"></button>
+            </ng-container>
           </ng-container>
-          <ng-container >
+          <ng-container *ngIf="!isLogged()">
             <a class="me-3 py-auto text-dark text-decoration-none btn login-btn" [routerLink]="['/login']">Iniciar Sesión</a>
             <a class="pt-2 text-dark text-decoration-none btn btn-outline-primary signup-btn" [routerLink]="['/signup']">Registrarse</a>
           </ng-container>

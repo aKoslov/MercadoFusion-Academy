@@ -20,7 +20,7 @@ namespace TiendaWeb.Controllers
         // ---------------------------------------- Post User Login ----------------------------------------
         // POST: api/<Product>
         [HttpPost("login")]
-        public ActionResult Post([FromQuery] string username, string password, [FromServices] IUserLogic userLogic)
+        public ActionResult Post([FromBody] Tienda.Dto.UserLogin newLogin, [FromServices] IUserLogic userLogic)
         {
             Program.RetrieveSession().RetrieveSession().UserType = 1; //Breach de la A&A
             if (Program.RetrieveSession().RetrieveSession().UserType == 1)
@@ -39,19 +39,14 @@ namespace TiendaWeb.Controllers
                     //Program.NewSession(new Tienda.Logic.UserLogic(new Tienda.Dto.UserSession() { SessionToken = new Guid().ToString(), SessionType = userLogic.ValidateUserType(username) }, newSession[1]));
                     //}
                     //}
-                    var newLogin = userLogic.UserLogin(username, password);
-                    if (newLogin.UserId == -1)
-                    {
-                        return BadRequest("Credenciales incorrectas");
-                    } else 
-                    {
-                        return Ok(newLogin);
-                    }
+                    var newSession = userLogic.UserLogin(newLogin.Username, newLogin.Password);
+                        return Ok(newSession);
+                    
                 } catch (Exception e)
                 {
                     return BadRequest(e);
                 }
-                return Ok("Bienvenid@ " + username);
+                return Ok("Bienvenid@ " + newLogin.Username);
 
             }
             else

@@ -15,12 +15,12 @@
                 <strong class="sm" *ngSwitchCase="false">Mis Pedidos</strong>
                 <strong class="sm" *ngSwitchCase="true">Órdenes</strong>
             </div>
-             <ng-container *ngIf="!validateStaff">
-                <app-order-list class="card" [userId]="17"></app-order-list>
+             <ng-container *ngIf="validateStaff()">
+                <app-order-list class="card"></app-order-list>
             </ng-container> 
         </ng-container>
         <ng-container *ngIf="accountInfoDisplay">
-            <app-user-info [userId]="userId"></app-user-info>
+            <app-user-info></app-user-info>
         </ng-container>
     </div>
 </div>

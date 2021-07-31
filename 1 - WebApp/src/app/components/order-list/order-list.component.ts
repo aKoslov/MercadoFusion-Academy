@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Order, OrdersListResponse } from 'src/app/models/order';
 import { UserTypes } from 'src/app/config/enums';
 import { OrderService } from 'src/app/services/order.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-order-list',
@@ -12,24 +13,30 @@ export class OrderListComponent implements OnInit {
 
   OrderList?: Order[] = [];
   orderCount: number = -1 
-  @Input() userType?: UserTypes 
-  @Input() userId: number = -1
   orderTotal: number = -1
 
-  constructor(private orderService: OrderService) { }
+  constructor(private orderService: OrderService,
+              private userService: UserService) { }
 
   ngOnInit(): void {
-      this.orderService.getUsersOrders(this.userId).subscribe((orders: OrdersListResponse) => {
-        this.OrderList = orders.list
-        this.orderCount = orders.count
-    })
+    if (!this.validateStaff()) 
+      {
+              this.orderService.getUsersOrders(this.userService.getUserId()).subscribe((orders: OrdersListResponse) => {
+              this.OrderList = orders.list
+              this.orderCount = orders.count
+          })
+      }
+      else
+      {
+        this.orderService.getUsersOrders(-1).subscribe((orders: OrdersListResponse) => {
+          this.OrderList = orders.list
+          this.orderCount = orders.count
+      })
+      }
   }
 
   validateStaff() {
-    if (this.userType == UserTypes.Staff) 
-    return true
-    else
-    return false
+    return this.userService.validateStaff()
   }
 
   validateStatus(statusId: number) {

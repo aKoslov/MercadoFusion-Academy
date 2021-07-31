@@ -1,5 +1,5 @@
 export class Product {
-    public imageUrl: string = "https://cdn.pixabay.com/photo/2017/09/18/14/49/egg-sandwich-2761894_960_720.jpg";
+    public imageUrl: string = "https://image.flaticon.com/icons/png/512/2674/2674505.png";
     constructor (public id: number,
                  public categoryID: number,
                  public name: string, 

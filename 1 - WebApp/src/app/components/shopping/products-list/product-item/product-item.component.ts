@@ -22,6 +22,7 @@ export class ProductListItemComponent implements OnInit {
     ) {}
 
   ngOnInit() {
+    this.productItem.imageUrl = "https://image.flaticon.com/icons/png/512/2674/2674505.png"
     this.addedToWishList = this.wishlistService.isAdded(this.productItem.id)
   }
   

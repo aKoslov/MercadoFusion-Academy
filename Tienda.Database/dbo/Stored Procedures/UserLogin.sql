@@ -36,6 +36,6 @@ AS
 		END
 		ELSE
 		BEGIN
-		SELECT -1, -1
+		SELECT -1, 3
 		END
 	END

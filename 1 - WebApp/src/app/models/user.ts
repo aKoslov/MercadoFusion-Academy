@@ -1,11 +1,26 @@
 export class UserDto {
     public userId: number = -1
     public name: string = ''
-    public lastName: string = ''
+    public surname: string = ''
     public username: string = ''
-    public dni: number = -1
+    public documentNumber: number = -1
     public creationDate: Date = new Date
     public statusId: number = -1
+    public userType: number = 3
+    constructor(userId: number,
+                userType: number)  {
+                    this.userId = userId 
+                    this.userType = userType
+                }
+}
+
+export class UserSession {
+    constructor(public userId:number,
+                public userType: number) 
+                {
+                    this.userId = userId
+                    this.userType = userType
+                }
 }
 
 export class UserLogin {
@@ -42,4 +57,13 @@ export class UsersListResponse {
             this.list = list
             this.count = count
         }
+}
+
+export class Session {
+    constructor(public userId: number,
+                public userType: number)
+                {
+                    this.userId = userId
+                    this.userType = userType
+                }
 }

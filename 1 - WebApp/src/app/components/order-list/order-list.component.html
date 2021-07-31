@@ -1,16 +1,18 @@
 <div class="container px-2">
     <div class="mb-2 d-flex justify-content-between align-items-center" width="250px">
-        <div class="position-relative">
-            <span class="position-absolute search">
-                <i class="fa fa-search"></i></span>
-            <input class="form-control" max-width="250px" placeholder="Nombre de cliente"> 
-        </div>
+        <ng-container *ngIf="validateStaff()">
+            <div class="position-relative">
+                <span class="position-absolute search">
+                    <i class="fa fa-search"></i></span>
+                <input class="form-control" max-width="250px" placeholder="Nombre de cliente">
+            </div>
+        </ng-container>
     </div>
     <div class="table-responsive">
         <table class="table table-responsive">
             <thead>
                 <tr class="bg-light">
-                    <ng-container>
+                    <ng-container *ngIf="validateStaff()">
                         <th scope="col" width="5%"><input class="form-check-input" type="checkbox"></th>
                         <th scope="col" width="5%">#</th>
                         <th scope="col" width="20%"><img class="me-1" src="https://i.imgur.com/VKOeFyS.png" width="25">Cliente</th>
@@ -23,10 +25,10 @@
             </thead>
             <tbody>
                 <tr *ngFor="let order of OrderList">
-                    <ng-container>
+                    <ng-container *ngIf="validateStaff()">
                         <th scope="row"><input class="form-check-input" type="checkbox"></th>
-                        <td>12</td>
-                        <td>1 Oct, 21</td>
+                        <td>{{ order.details.id }}</td>
+                        <td>{{ order.details.userId }}</td>
                     </ng-container>
                     <td>{{ order.details.billingNumber }}</td>
                     <td>{{ order.details.createdDate | date:'short' }}</td>
